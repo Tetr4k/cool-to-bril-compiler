@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import Debug from "./Components/Debug";
 
 function App(){
 	const [tokens, setTokens] = useState([]);
@@ -15,6 +16,7 @@ function App(){
 					Cool:
 					<textarea id="coolCode" value={coolCode} onChange={handleCoolCodeChange}></textarea>
 				</label>
+				<Debug tokens={tokens}/>
 			</main>
 		</>
 	)
