@@ -18,6 +18,9 @@ function App(){
 				</label>
 				<Debug tokens={tokens}/>
 			</main>
+			<footer>
+				<a href="https://github.com/Tetr4k/cool-to-bril-compiler/">Repository</a>
+			</footer>
 		</>
 	)
 }
