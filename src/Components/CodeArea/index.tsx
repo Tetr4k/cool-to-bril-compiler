@@ -3,12 +3,13 @@ import { useState } from "react";
 import codeAreaProps from "./props";
 
 const CodeArea = (props: codeAreaProps) => {
-	const [rows, setRows] = useState(1);
+	const initialRows = 1;
+	const [rows, setRows] = useState(initialRows);
 
 	const handleLineInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const textareaLineHeight = 36;
 		const previousRows = event.target.rows;
-		event.target.rows = 1;
+		event.target.rows = initialRows;
 		const currentRows = ~~(event.target.scrollHeight / textareaLineHeight);
 		if (currentRows === previousRows) {
 			event.target.rows = currentRows;
@@ -20,7 +21,7 @@ const CodeArea = (props: codeAreaProps) => {
 		const rowsList = [...Array(rows).keys()];
 		console.log(rows, rowsList);
 		return rowsList.map((value, index) => {
-			return (<li key={index} style={index%2?{background: "#CCCCCC"}:{background: "#AAAAAA"}}>
+			return (<li key={index} style={index%2?{background: "#0000BF"}:{background: "#0000E6"}}>
 				{value+1}
 			</li>);
 		})
