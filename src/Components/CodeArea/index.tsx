@@ -1,24 +1,19 @@
 import React from "react";
 import { useState } from "react";
+import codeAreaProps from "./props";
 
-const CodeArea = () => {
+const CodeArea = (props: codeAreaProps) => {
 	const [rows, setRows] = useState(1);
-	const [coolCode, setCoolCode] = useState("");
 
-	const handleCoolCodeChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+	const handleLineInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const textareaLineHeight = 36;
-
 		const previousRows = event.target.rows;
 		event.target.rows = 1;
-
 		const currentRows = ~~(event.target.scrollHeight / textareaLineHeight);
-		
 		if (currentRows === previousRows) {
-				event.target.rows = currentRows;
+			event.target.rows = currentRows;
 		}
-		
 		setRows(currentRows);
-		setCoolCode(event.target.value);
 	}
 
 	const renderLineIndex = () => {
@@ -39,12 +34,7 @@ const CodeArea = () => {
 				{renderLineIndex()}
 			</ol>
 			<label htmlFor="code" className="coolcode-input">
-				<textarea 
-					id="code"
-					rows={rows}
-					onInput={handleCoolCodeChange}
-					value={coolCode}
-				/>
+				{React.cloneElement(props.children, { rows: rows, onInput: handleLineInput, id: "code"})}
 			</label>
 		</div>
 	)

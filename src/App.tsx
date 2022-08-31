@@ -7,13 +7,24 @@ import './index.css';
 function App(){
 	const [tokens, setTokens] = useState([]);
 
+	const [code, setCode] = useState("");
+
+	const doLexicalAnalysis = (code: string) => {
+		
+	}
+
+	const handleCodeChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+		setCode(event.target.value);
+		console.log(code);
+		doLexicalAnalysis(code);
+	}
+
 	return (
 		<div className="app-content">
-			<nav>
-
-			</nav>
 			<main>
-				<CodeArea/>
+				<CodeArea code={code}>
+					<textarea onChange={handleCodeChange}/>
+				</CodeArea>
 				<Debug tokens={tokens}/>
 			</main>
 			<footer>
