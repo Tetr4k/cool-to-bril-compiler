@@ -1,27 +1,25 @@
 import React from "react";
 import { useState } from "react";
+import CodeArea from "./Components/CodeArea";
 import Debug from "./Components/Debug";
+import './index.css';
 
 function App(){
 	const [tokens, setTokens] = useState([]);
-	const [coolCode, setCoolCode] = useState("");
-	const handleCoolCodeChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-		setCoolCode(event.target.value);
-	}
 
 	return (
-		<>
+		<div className="app-content">
+			<nav>
+
+			</nav>
 			<main>
-				<label>
-					Cool:
-					<textarea id="coolCode" value={coolCode} onChange={handleCoolCodeChange}></textarea>
-				</label>
+				<CodeArea/>
 				<Debug tokens={tokens}/>
 			</main>
 			<footer>
 				<a href="https://github.com/Tetr4k/cool-to-bril-compiler/">Repository</a>
 			</footer>
-		</>
+		</div>
 	)
 }
 
