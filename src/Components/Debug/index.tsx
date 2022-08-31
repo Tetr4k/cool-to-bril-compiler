@@ -1,11 +1,20 @@
 import React from "react";
 import debugProps from "./props";
+import { CSSTransition } from 'react-transition-group';
 
 const Debug = (props: debugProps) => {
 	return (
-		<p>
-			{props.tokens}
-		</p>
+			<CSSTransition
+				in={props.show}
+				timeout={700}
+				classNames='content'
+				unmountOnExit
+			>
+				<p className="content">
+					aaaaaaaaaaaaaa
+					{props.tokens}
+				</p>
+			</CSSTransition>
 	);
 }
 

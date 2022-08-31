@@ -13,9 +13,23 @@ main{
 }
 
 nav{
+	align-items: center;
 	background: #1212B3;
+	display: flex;
 	height: 5vh;
+	justify-content: space-around;
 	width: 100%;
+}
+
+button{
+	background: none;
+	border: none;
+	color: white;
+	font-size: 2rem;
+}
+
+button:hover{
+	color: #DDDDDD;
 }
 
 .coolcode-box{
@@ -67,4 +81,31 @@ a, a:visited{
 	font-size: 1.5rem;
 	padding: 0.5rem;
 	text-decoration: none;
+}
+
+.content{
+	background: white;
+	border-top: solid #1212B3 1px;
+	bottom: 0;
+	height: 15vh;
+	position: absolute;
+	width: 100%;
+}
+
+.content-enter {
+	height: 0;
+}
+  
+.content-enter-active {
+	height: 15vh;
+	transition: height 0.7s ease;
+}
+
+.content-exit {
+	height: 15vh;
+}
+
+.content-exit-active {
+	height: 0;
+	transition: height 0.7s ease;
 }
