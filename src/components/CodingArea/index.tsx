@@ -29,13 +29,14 @@ const CodingArea = (props: codingAreaProps) => {
 	}
 
 	return (
-		<div
-			className="coolcode-box"
-		>
-			<ol className="coolcode-list">
+		<div className="coding-box">
+			<ol className="coding-list">
 				{renderLineIndex()}
 			</ol>
-			<label htmlFor="code" className="coolcode-input">
+			<label 
+				htmlFor="code" 
+				className="coding-input"
+			>
 				{React.cloneElement(props.children, { rows: rows, onInput: handleLineInput, id: "code"})}
 			</label>
 		</div>

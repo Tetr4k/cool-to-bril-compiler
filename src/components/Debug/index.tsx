@@ -6,7 +6,7 @@ const Debug = (props: debugProps) => {
 	return (
 			<CSSTransition
 				in={props.show}
-				timeout={700}
+				timeout={300}
 				classNames='content'
 				unmountOnExit
 			>
