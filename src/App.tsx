@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import useToggle from './hooks/useToggle';
-import CodeArea from "./Components/CodeArea";
-import Debug from "./Components/Debug";
+import CodingArea from "./components/CodingArea";
+import Debug from "./components/Debug";
 import './index.css';
 import { FaPlay } from 'react-icons/fa';
 import { BiHide, BiShow } from 'react-icons/bi';
@@ -18,12 +18,11 @@ function App(){
 
 	const handleCodeChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setCode(event.target.value);
-		console.log(code);
-		doLexicalAnalysis(code);
 	}
 
 	const runCompiler = () => {
-		const tokens = doLexicalAnalysis(code);
+		console.log(code)
+		//const tokens = doLexicalAnalysis(code);
 	}
 
 	return (
@@ -37,9 +36,9 @@ function App(){
 				</button>
 			</nav>
 			<main>
-				<CodeArea code={code}>
+				<CodingArea code={code}>
 					<textarea onChange={handleCodeChange}/>
-				</CodeArea>
+				</CodingArea>
 			</main>
 			<Debug show={state} tokens={tokens}/>
 			<footer>

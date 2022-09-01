@@ -1,13 +1,13 @@
 import React from "react";
 import { useState } from "react";
-import codeAreaProps from "./props";
+import codingAreaProps from "./props";
 
-const CodeArea = (props: codeAreaProps) => {
+const CodingArea = (props: codingAreaProps) => {
 	const initialRows = 1;
 	const [rows, setRows] = useState(initialRows);
 
 	const handleLineInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-		const textareaLineHeight = 36;
+		const textareaLineHeight = 32;
 		const previousRows = event.target.rows;
 		event.target.rows = initialRows;
 		const currentRows = ~~(event.target.scrollHeight / textareaLineHeight);
@@ -41,4 +41,4 @@ const CodeArea = (props: codeAreaProps) => {
 	)
 }
 
-export default CodeArea;
+export default CodingArea;
