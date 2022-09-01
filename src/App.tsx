@@ -40,7 +40,14 @@ function App(){
 					<textarea onChange={handleCodeChange}/>
 				</CodingArea>
 			</main>
-			<Debug show={state} tokens={tokens}/>
+			<Debug show={state}>
+				<p>
+					{code}
+				</p>
+				<p>
+					{tokens}
+				</p>
+			</Debug>
 			<footer>
 				<a href="https://github.com/Tetr4k/cool-to-bril-compiler/">Repository</a>
 			</footer>

@@ -1,6 +1,6 @@
 type debugProps = {
-	tokens: string[];
 	show: boolean;
+	children?: any;
 }
 
 export default debugProps;
