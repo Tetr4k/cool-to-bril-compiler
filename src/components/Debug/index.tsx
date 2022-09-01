@@ -11,7 +11,6 @@ const Debug = (props: debugProps) => {
 				unmountOnExit
 			>
 				<p className="content">
-					aaaaaaaaaaaaaa
 					{props.tokens}
 				</p>
 			</CSSTransition>

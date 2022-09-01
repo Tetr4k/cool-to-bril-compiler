@@ -21,7 +21,7 @@ function App(){
 	}
 
 	const runCompiler = () => {
-		console.log(code)
+		toggle(true);
 		//const tokens = doLexicalAnalysis(code);
 	}
 
@@ -31,7 +31,7 @@ function App(){
 				<button onClick={runCompiler}>
 					<FaPlay/>
 				</button>
-				<button onClick={toggle}>
+				<button onClick={() => toggle()}>
 					{state?<BiShow/>:<BiHide/>}
 				</button>
 			</nav>

@@ -19,11 +19,12 @@ const CodingArea = (props: codingAreaProps) => {
 
 	const renderLineIndex = () => {
 		const rowsList = [...Array(rows).keys()];
-		console.log(rows, rowsList);
 		return rowsList.map((value, index) => {
-			return (<li key={index} style={index%2?{background: "#0000BF"}:{background: "#0000E6"}}>
-				{value+1}
-			</li>);
+			return (
+				<li key={index} style={index%2?{background: "#0000BF"}:{background: "#0000E6"}}>
+					{value+1}
+				</li>
+			);
 		})
 	}
 
