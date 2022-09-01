@@ -37,7 +37,12 @@ const CodingArea = (props: codingAreaProps) => {
 				htmlFor="code" 
 				className="coding-input"
 			>
-				{React.cloneElement(props.children, { rows: rows, onInput: handleLineInput, id: "code"})}
+				{React.cloneElement(props.children, { 
+					rows: rows,
+					onInput: handleLineInput,
+					id: "code",
+					placeholder: "Code here . . ."
+				})}
 			</label>
 		</div>
 	)

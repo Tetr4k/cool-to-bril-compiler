@@ -72,6 +72,12 @@ button:hover{
 	text-justify: distribute;
 }
 
+textarea::placeholder{
+	color: #AAAAAA;
+	font-weight: bolder;
+	font-style: italic;
+}
+
 footer{
 	background: #1111BB;
 	display: flex;
