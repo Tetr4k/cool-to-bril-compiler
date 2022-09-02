@@ -1,10 +1,16 @@
+import Token from "../classes/Token";
+import ErrorToken from "../classes/ErrorToken";
+
 const regexWord = /^[0-9a-z_]+/i;
+
 const regexNewLine = /^\n/;
+
 const regexWhiteSpace = /^[\f\r\t\v\s]+/;
+
 const regexSymbols = [
-	[/^--/, "LNC"],
-	[/^\(\*/, "MLNC_STT"],
-	[/^\*\)/, "MLNC_END"],
+	[/^--/, "SYM_LNC"],
+	[/^\(\*/, "SYM_MLNC_STT"],
+	[/^\*\)/, "SYM_MLNC_END"],
 	[/^<-/, "SYM_ATR"],
 	[/^>=/, "OP_GE"],
 	[/^<=/, "OP_SE"],
@@ -60,31 +66,28 @@ const regexEspecialWords = [
 	[/^SELF_TYPE/, "EW_ST"]
 ];
 
-function captureTokens(code: string): Array<any>{
+function doLexAnalysis(code: string): Array<Token>{
 	let line = 1;
-	let tokens = new Array<any>();
+	let tokens = new Array<Token>();
 	while (code.length > 0){
 		//Remove new line
-		let captureNewLine = code.match(regexNewLine);
-		if (captureNewLine){
+		if (code.match(regexNewLine)){
 			line++;
 			code = code.replace(regexNewLine, "");
 			continue;
 		}
 
 		//Remove white spaces
-		let captureWhiteSpace = code.match(regexWhiteSpace);
-		if (captureWhiteSpace){
+		if (code.match(regexWhiteSpace)){
 			code = code.replace(regexWhiteSpace, "");
 			continue;
 		}
 
 		//Capture symbols
 		let replace = regexSymbols.map(regex => {
-			let capturedSymbol = code.match(regex[0]);
-			if (capturedSymbol) {
+			if (code.match(regex[0])) {
 				code = code.replace(regex[0], "");
-				tokens.push([regex[1], line])
+				tokens.push(new Token(regex[1], line))
 				return true;
 			}			
 		});
@@ -92,10 +95,9 @@ function captureTokens(code: string): Array<any>{
 
 		//Capture keywords
 		let verifyKeyWords = regexKeyWords.map(regex => {
-			let capturedWord = code.match(regex[0]);
-			if (capturedWord) {
+			if (code.match(regex[0])) {
 				code = code.replace(regex[0], "");
-				tokens.push([regex[1], line])
+				tokens.push(new Token(regex[1], line))
 				return true;
 			}			
 		});
@@ -104,10 +106,9 @@ function captureTokens(code: string): Array<any>{
 
 		//Capture especial words
 		let verifyEspecialWords = regexEspecialWords.map(regex => {
-			let capturedWord = code.match(regex[0]);
-			if (capturedWord) {
+			if (code.match(regex[0])) {
 				code = code.replace(regex[0], "");
-				tokens.push([regex[1], line])
+				tokens.push(new Token(regex[1], line))
 				return true;
 			}			
 		});
@@ -116,13 +117,15 @@ function captureTokens(code: string): Array<any>{
 		let capturedWord = code.match(regexWord);
 		if (capturedWord){
 			code = code.replace(regexWord, "");
-			tokens.push([capturedWord, line])
+			tokens.push(new Token(capturedWord[0], line))
 			continue;
 		}
-		return [code.charAt(0), line];
+
+		//Token não identificado
+		tokens.push(new ErrorToken(code.charAt(0), line));
+		break;
 	} 
-	
 	return tokens;
 }
 
-export default captureTokens;
+export default doLexAnalysis;
