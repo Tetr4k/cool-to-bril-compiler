@@ -5,7 +5,7 @@ A Cool(Classroom Object Oriented Language) to Bril(Big Red Intermediate Language
 To do:
 
 - [x] App design
-- [ ] Lexical analysis - working
+- [X] Lexical analysis
 - [ ] Syntax analysis
 - [ ] Semantic analysis
 - [ ] I forgot
