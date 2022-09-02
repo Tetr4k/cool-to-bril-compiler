@@ -4,13 +4,14 @@
 	flex-direction: column;
 	justify-content: space-between;
 	height: 100vh;
+	overflow: hidden;
 	width: 100vw;
 }
 
 main{
-	height: 90vh;
 	align-items: center;
 	display: flex;
+	height: 90vh;
 	justify-content: space-around;
 	width: 100%;
 }
@@ -27,8 +28,8 @@ nav{
 button{
 	background: none;
 	border: none;
-	padding: 0.5rem;
 	color: white;
+	padding: 0.5rem;
 	font-size: 2rem;
 }
 
@@ -52,6 +53,19 @@ button:hover{
 	padding-right: 0.5rem;
 	text-align: right;
 	width: 3rem;
+}
+
+li.destaque{
+	background: blue;
+}
+
+li.odd{
+	background: #1111BB;
+}
+
+li.error{
+	background: red;
+	color: yellow;
 }
 
 .coding-input{
@@ -99,6 +113,7 @@ a, a:visited{
 	color: white;
 	height: 15vh;
 	overflow-y: scroll;
+	padding: 1rem;
 	width: 100%;
 }
 
