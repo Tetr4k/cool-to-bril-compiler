@@ -98,7 +98,7 @@ a, a:visited{
 	bottom: 0;
 	color: white;
 	height: 15vh;
-	overflow: hidden;
+	overflow-y: scroll;
 	width: 100%;
 }
 

@@ -6,14 +6,17 @@ import Debug from "./components/Debug";
 import './index.css';
 import { FaPlay } from 'react-icons/fa';
 import { BiHide, BiShow } from 'react-icons/bi';
+import captureTokens from "./functions/tokenCapture";
 
 function App(){
 	const [state, toggle] = useToggle(false);
-	const [tokens, setTokens] = useState([]);
+	const [tokens, setTokens] = useState(new Array<(string | number)>);
 	const [code, setCode] = useState("");
 
-	const doLexicalAnalysis = (code: string) => {
-		console.log("Fazendo analize lexica . . .")
+	const renderTokens = () => {
+		return tokens.map((element, index) => {
+			return (<li key={index}>{element}</li>)
+		})
 	}
 
 	const handleCodeChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -21,6 +24,8 @@ function App(){
 	}
 
 	const runCompiler = () => {
+		const capturedTokens = captureTokens(code);
+		setTokens(capturedTokens);
 		toggle(true);
 		//const tokens = doLexicalAnalysis(code);
 	}
@@ -39,14 +44,18 @@ function App(){
 				<CodingArea code={code}>
 					<textarea onChange={handleCodeChange}/>
 				</CodingArea>
-			</main>
-			<Debug show={state}>
+				
+				{/*
+				
 				<p>
 					{code}
-				</p>
-				<p>
-					{tokens}
-				</p>
+				</p> 
+
+				*/}
+				
+			</main>
+			<Debug show={state}>
+				{renderTokens()}
 			</Debug>
 			<footer>
 				<a href="https://github.com/Tetr4k/cool-to-bril-compiler/">Repository</a>

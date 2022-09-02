@@ -10,9 +10,9 @@ const Debug = (props: debugProps) => {
 				classNames='content'
 				unmountOnExit
 			>
-				<p className="content">
+				<ol className="content">
 					{props.children}
-				</p>
+				</ol>
 			</CSSTransition>
 	);
 }
