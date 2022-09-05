@@ -53,7 +53,9 @@ const regexKeyWords = [
 	[/^of(?!\w)/i, "KW_OF"],
 	[/^pool(?!\w)/i, "KW_POOL"],
 	[/^then(?!\w)/i, "KW_THEN"],
-	[/^while(?!\w)/i, "KW_THEN"]
+	[/^while(?!\w)/i, "KW_THEN"],
+	[/^true/, "KW_TRUE"],
+	[/^false/, "KW_FALSE"]
 ];
 
 const regexEspecialWords = [
@@ -88,6 +90,7 @@ function doLexAnalysis(code: string): Array<Token>{
 
 
 
+		
 		//Capture symbols
 		let replace = regexSymbols.map(regex => {
 			if (code.match(regex[0])) {
