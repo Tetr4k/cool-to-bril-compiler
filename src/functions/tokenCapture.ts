@@ -112,7 +112,7 @@ function doLexAnalysis(code: string): Array<Token>{
 				return true;
 			}			
 		});
-		if (verifyKeyWords.includes(true)) continue;
+		if (verifyEspecialWords.includes(true)) continue;
 
 		let capturedWord = code.match(regexWord);
 		if (capturedWord){
