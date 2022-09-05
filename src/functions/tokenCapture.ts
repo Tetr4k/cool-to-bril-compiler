@@ -1,6 +1,8 @@
 import Token from "../classes/Token";
 import ErrorToken from "../classes/ErrorToken";
 
+const regexLineComment = /^--.*(?=\n|$)/;
+
 const regexWord = /^[0-9a-z_]+/i;
 
 const regexNewLine = /^\n/;
@@ -8,9 +10,6 @@ const regexNewLine = /^\n/;
 const regexWhiteSpace = /^[\f\r\t\v\s]+/;
 
 const regexSymbols = [
-	[/^--/, "SYM_LNC"],
-	[/^\(\*/, "SYM_MLNC_STT"],
-	[/^\*\)/, "SYM_MLNC_END"],
 	[/^<-/, "SYM_ATR"],
 	[/^<=/, "OP_SE"],
 	[/^>/, "OP_GT"],
@@ -30,13 +29,11 @@ const regexSymbols = [
 	[/^}/, "SYM_CB_CL"],
 	[/^\(/, "SYM_P_OP"],
 	[/^\)/, "SYM_P_CL"],
-	[/^\"/, "SYM_STR"],
 	[/^\:/, "SYM_DD"],
 	[/^,/, "SYM_CM"],
 	[/^\\/, "SYM_BARRA"],
 	[/^;/, "SYM_DC"],
-	[/^!/, "SYM_EX"],
-	[/^'/, "SYM_COMMA"],
+	[/^!/, "SYM_EX"]
 ];
 
 const regexKeyWords = [
@@ -68,6 +65,12 @@ function doLexAnalysis(code: string): Array<Token>{
 	let line = 1;
 	let tokens = new Array<Token>();
 	while (code.length > 0){
+		//Remove line coment
+		if (code.match(regexLineComment)){
+			code = code.replace(regexLineComment, "");
+			continue;
+		}
+
 		//Remove new line
 		if (code.match(regexNewLine)){
 			line++;
@@ -80,6 +83,10 @@ function doLexAnalysis(code: string): Array<Token>{
 			code = code.replace(regexWhiteSpace, "");
 			continue;
 		}
+
+
+
+
 
 		//Capture symbols
 		let replace = regexSymbols.map(regex => {
