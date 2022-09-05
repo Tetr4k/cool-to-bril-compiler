@@ -14,3 +14,19 @@ To do:
 # Deployment:
 
 You can try it in [cooltobril.vercel.app](cooltobril.vercel.app)
+
+# Developing
+
+Install any version of [NodeJS](https://nodejs.org/en/) greater than 16.
+
+To install the development dependencies run in your console:
+
+```
+  npm install
+```
+
+To run the project run in your console:
+
+```
+  npm start
+```
