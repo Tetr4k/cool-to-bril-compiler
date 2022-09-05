@@ -7,7 +7,7 @@ const CodingArea = (props: codingAreaProps) => {
 	const initialRows = 1;
 	const [rows, setRows] = useState(initialRows);
 	const handleLineInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-		const textareaLineHeight = 32;
+		const textareaLineHeight = 16;
 		const previousRows = event.target.rows;
 		event.target.rows = initialRows;
 		const currentRows = ~~(event.target.scrollHeight / textareaLineHeight);

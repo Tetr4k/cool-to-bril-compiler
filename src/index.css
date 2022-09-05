@@ -43,13 +43,15 @@ button:hover{
 	display: flex;
 	height: 64vh;
 	overflow-y: scroll;
-	width: 45vh;
+	overflow-x: hidden;
+	width: 50%;
 }
 
 .coding-list li{
 	color: white;
+	font-size: 12px;
 	font-weight: bold;
-	line-height: 32px;
+	line-height: 16px;
 	padding-right: 0.5rem;
 	text-align: right;
 	width: 3rem;
@@ -76,14 +78,16 @@ li.error{
 	background: #DDDDDD;
 	border: none;
 	color: #333333;
-	font-size: 24px;
+	font-size: 14px;
 	height: auto;
-	line-height: 32px;
-	padding: 0 0 0 0.5rem;
+	padding: 0 0 0 0.1rem;
+	line-height: 16px;
 	resize: none;
 	outline: none;
-	overflow: auto;
-	text-justify: distribute;
+	white-space: pre;
+	width: 100%;
+	overflow-wrap: normal;
+	overflow-x: auto;
 }
 
 textarea::placeholder{

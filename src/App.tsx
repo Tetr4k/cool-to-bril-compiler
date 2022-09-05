@@ -33,18 +33,21 @@ function App(){
 	}
 
 	const runCompiler = () => {
+		console.log(code);
 		const newTokens = doLexAnalysis(code);
 		const lastToken = newTokens.reverse().at(0);
 
-		if (lastToken instanceof ErrorToken) 
+		if (lastToken instanceof ErrorToken){
 			setErrorLine(lastToken.getLine);
-		else
+			setTokens([lastToken]);
+		}
+		else{
 			setErrorLine(0);
+			setTokens(newTokens.reverse());
+		}
 
 		if (newTokens.length > 0)
 			toggle(true);
-
-		setTokens(newTokens);
 	}
 
 	return (
