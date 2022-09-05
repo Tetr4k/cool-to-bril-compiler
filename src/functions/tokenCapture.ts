@@ -40,28 +40,28 @@ const regexSymbols = [
 ];
 
 const regexKeyWords = [
-	[/^case[^0-9a-z_]/i, "KW_CASE"],
-	[/^class[^0-9a-z_]/i, "KW_CLASS"],
-	[/^else[^0-9a-z_]/i, "KW_ELSE"],
-	[/^esac[^0-9a-z_]/i, "KW_ESAC"],
-	[/^fi[^0-9a-z_]/i, "KW_FI"],
-	[/^if[^0-9a-z_]/i, "KW_IF"],
-	[/^inherits[^0-9a-z_]/i, "KW_INHERITS"], 
-	[/^isvoid[^0-9a-z_]i/, "KW_ISVOID"],
-	[/^in[^0-9a-z_]i/, "KW_IN"],
-	[/^let[^0-9a-z_]i/, "KW_LET"],
-	[/^loop[^0-9a-z_]i/, "KW_LOOP"],
-	[/^new[^0-9a-z_]i/, "KW_NEW"],
-	[/^not[^0-9a-z_]i/, "KW_NOT"],
-	[/^of[^0-9a-z_]i/, "KW_OF"],
-	[/^pool[^0-9a-z_]i/, "KW_POOL"],
-	[/^then[^0-9a-z_]i/, "KW_THEN"],
-	[/^while[^0-9a-z_]i/, "KW_THEN"]
+	[/^case(?!\w)/i, "KW_CASE"],
+	[/^class(?!\w)/i, "KW_CLASS"],
+	[/^else(?!\w)/i, "KW_ELSE"],
+	[/^esac(?!\w)/i, "KW_ESAC"],
+	[/^fi(?!\w)/i, "KW_FI"],
+	[/^if(?=[^\w])/i, "KW_IF"],
+	[/^inherits(?!\w)/i, "KW_INHERITS"], 
+	[/^isvoid(?!\w)/i, "KW_ISVOID"],
+	[/^in(?!\w)/i, "KW_IN"],
+	[/^let(?!\w)/i, "KW_LET"],
+	[/^loop(?!\w)/i, "KW_LOOP"],
+	[/^new(?!\w)/i, "KW_NEW"],
+	[/^not(?!\w)/i, "KW_NOT"],
+	[/^of(?!\w)/i, "KW_OF"],
+	[/^pool(?!\w)/i, "KW_POOL"],
+	[/^then(?!\w)/i, "KW_THEN"],
+	[/^while(?!\w)/i, "KW_THEN"]
 ];
 
 const regexEspecialWords = [
-	[/^self/, "EW_SELF"],
-	[/^SELF_TYPE/, "EW_ST"]
+	[/^self(?!\w)/, "EW_SELF"],
+	[/^SELF_TYPE(?!\w)/, "EW_ST"]
 ];
 
 function doLexAnalysis(code: string): Array<Token>{
