@@ -12,7 +12,6 @@ const regexSymbols = [
 	[/^\(\*/, "SYM_MLNC_STT"],
 	[/^\*\)/, "SYM_MLNC_END"],
 	[/^<-/, "SYM_ATR"],
-	[/^>=/, "OP_GE"],
 	[/^<=/, "OP_SE"],
 	[/^>/, "OP_GT"],
 	[/^</, "OP_ST"],
@@ -38,27 +37,26 @@ const regexSymbols = [
 	[/^;/, "SYM_DC"],
 	[/^!/, "SYM_EX"],
 	[/^'/, "SYM_COMMA"],
-	[/^'/, "SYM_COMMA2"]
 ];
 
 const regexKeyWords = [
-	[/^case/, "KW_CASE"],
-	[/^class/, "KW_CLASS"],
-	[/^else/, "KW_ELSE"],
-	[/^esac/, "KW_ESAC"],
-	[/^fi/, "KW_FI"],
-	[/^if/, "KW_IF"],
-	[/^inherits/, "KW_INHERITS"], 
-	[/^isvoid/, "KW_ISVOID"],
-	[/^in/, "KW_IN"],
-	[/^let/, "KW_LET"],
-	[/^loop/, "KW_LOOP"],
-	[/^new/, "KW_NEW"],
-	[/^not/, "KW_NOT"],
-	[/^of/, "KW_OF"],
-	[/^pool/, "KW_POOL"],
-	[/^then/, "KW_THEN"],
-	[/^while/, "KW_THEN"]
+	[/^case[^0-9a-z_]/i, "KW_CASE"],
+	[/^class[^0-9a-z_]/i, "KW_CLASS"],
+	[/^else[^0-9a-z_]/i, "KW_ELSE"],
+	[/^esac[^0-9a-z_]/i, "KW_ESAC"],
+	[/^fi[^0-9a-z_]/i, "KW_FI"],
+	[/^if[^0-9a-z_]/i, "KW_IF"],
+	[/^inherits[^0-9a-z_]/i, "KW_INHERITS"], 
+	[/^isvoid[^0-9a-z_]i/, "KW_ISVOID"],
+	[/^in[^0-9a-z_]i/, "KW_IN"],
+	[/^let[^0-9a-z_]i/, "KW_LET"],
+	[/^loop[^0-9a-z_]i/, "KW_LOOP"],
+	[/^new[^0-9a-z_]i/, "KW_NEW"],
+	[/^not[^0-9a-z_]i/, "KW_NOT"],
+	[/^of[^0-9a-z_]i/, "KW_OF"],
+	[/^pool[^0-9a-z_]i/, "KW_POOL"],
+	[/^then[^0-9a-z_]i/, "KW_THEN"],
+	[/^while[^0-9a-z_]i/, "KW_THEN"]
 ];
 
 const regexEspecialWords = [
