@@ -14,57 +14,57 @@ const regexNewLines = /\n/g;
 const regexWhiteSpace = /^[\f\r\t\v\s]+/;
 
 const regexSymbols = [
-	/^<-/,
-	/^<=/,
-	/^>/,
-	/^</,
-	/^=/,
-	/^\+/,
-	/^-/,
-	/^\*/,
-	/^\//,
-	/^~/,
-	/^\./,
-	/^@/,
-	/^=>/,
-	/^\[/,
-	/^\]/,
-	/^{/,
-	/^}/,
-	/^\(/,
-	/^\)/,
-	/^\:/,
-	/^,/,
-	/^\\/,
-	/^;/,
-	/^!/
+	/^<-/,	// <-
+	/^<=/,	// <=
+	/^>/,	// >
+	/^</,	// <
+	/^=/,	// =
+	/^\+/,	// +
+	/^-/,	// -
+	/^\*/,	// *
+	/^\//,	// \
+	/^~/,	// ~
+	/^\./,	// .
+	/^@/,	// @
+	/^=>/,	// =>
+	/^\[/,	// [
+	/^\]/,	// ]
+	/^{/,	// {
+	/^}/,	// }
+	/^\(/,	// (
+	/^\)/,	// )
+	/^\:/,	// :
+	/^,/,	// ,
+	/^\\/,	// \
+	/^;/,	// ;
+	/^!/	// !
 ];
 
 const regexKeyWords = [
-	/^case(?!\w)/i,
-	/^class(?!\w)/i,
-	/^else(?!\w)/i,
-	/^esac(?!\w)/i,
-	/^fi(?!\w)/i,
-	/^if(?=[^\w])/i,
-	/^inherits(?!\w)/i, 
-	/^isvoid(?!\w)/i,
-	/^in(?!\w)/i,
-	/^let(?!\w)/i,
-	/^loop(?!\w)/i,
-	/^new(?!\w)/i,
-	/^not(?!\w)/i,
-	/^of(?!\w)/i,
-	/^pool(?!\w)/i,
-	/^then(?!\w)/i,
-	/^while(?!\w)/i,
-	/^true/,
-	/^false/
+	/^case(?!\w)/i,		//case
+	/^class(?!\w)/i,	//class
+	/^else(?!\w)/i,		//else
+	/^esac(?!\w)/i,		//esac
+	/^fi(?!\w)/i,		//fi
+	/^if(?=[^\w])/i,	//if
+	/^inherits(?!\w)/i,	//inherits
+	/^isvoid(?!\w)/i,	//isvoid
+	/^in(?!\w)/i,		//in
+	/^let(?!\w)/i,		//let
+	/^loop(?!\w)/i,		//loop
+	/^new(?!\w)/i,		//new
+	/^not(?!\w)/i,		//not
+	/^of(?!\w)/i,		//of
+	/^pool(?!\w)/i,		//pool
+	/^then(?!\w)/i,		//then
+	/^while(?!\w)/i,	//while
+	/^true/,			//true
+	/^false/			//false
 ];
 
 const regexEspecialWords = [
-	/^self(?!\w)/,
-	/^SELF_TYPE(?!\w)/
+	/^self(?!\w)/,		//self
+	/^SELF_TYPE(?!\w)/	//SELF_TYPE
 ];
 
 function doLexAnalysis(code: string): Array<Token>{
