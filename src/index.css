@@ -40,6 +40,7 @@ button:hover{
 .coding-box{
 	background: #DDDDDD;
 	border: solid black 1px;
+	box-shadow: 1rem 1rem 2rem 0.5rem black;
 	display: flex;
 	height: 64vh;
 	overflow-y: scroll;
