@@ -14,13 +14,12 @@ function App(){
 	const [state, toggle] = useToggle(false);
 	const [code, setCode] = useState("");
 	const [errorLine, setErrorLine] = useState(0);
+	const [tokens, setTokens] = useState(new Array<(Token)>);
 
 	const handleCodeChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setCode(event.target.value);
 		setErrorLine(0);
 	}
-
-	const [tokens, setTokens] = useState(new Array<(Token)>);
 
 	const renderTokens = () => {
 		return tokens.map((element, index) => {

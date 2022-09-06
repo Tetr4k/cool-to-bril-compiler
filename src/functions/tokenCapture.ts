@@ -1,78 +1,109 @@
 import Token from "../classes/Token";
 import ErrorToken from "../classes/ErrorToken";
 
+const regexString = /^\"[^]*?\"/;
+
 const regexLineComment = /^--.*(?=\n|$)/;
+const regexMultiLineComment = /^\(\*[^]*?\*\)/
 
 const regexWord = /^[0-9a-z_]+/i;
 
 const regexNewLine = /^\n/;
+const regexNewLines = /\n/g;
 
 const regexWhiteSpace = /^[\f\r\t\v\s]+/;
 
 const regexSymbols = [
-	[/^<-/, "SYM_ATR"],
-	[/^<=/, "OP_SE"],
-	[/^>/, "OP_GT"],
-	[/^</, "OP_ST"],
-	[/^=/, "SYM_EQL"],
-	[/^\+/, "SYM_ADD"],
-	[/^-/, "SYM_SUB"],
-	[/^\*/, "SYM_MULT"],
-	[/^\//, "SYM_DIV"],
-	[/^~/, "SYM_NOT"],
-	[/^\./, "SYM_POINT"],
-	[/^@/, "SYM_AT"],
-	[/^=>/, "SYM_AF"],
-	[/^\[/, "SYM_SB_OP"],
-	[/^\]/, "SYM_SB_CL"],
-	[/^{/, "SYM_CB_OP"],
-	[/^}/, "SYM_CB_CL"],
-	[/^\(/, "SYM_P_OP"],
-	[/^\)/, "SYM_P_CL"],
-	[/^\:/, "SYM_DD"],
-	[/^,/, "SYM_CM"],
-	[/^\\/, "SYM_BARRA"],
-	[/^;/, "SYM_DC"],
-	[/^!/, "SYM_EX"]
+	/^<-/,
+	/^<=/,
+	/^>/,
+	/^</,
+	/^=/,
+	/^\+/,
+	/^-/,
+	/^\*/,
+	/^\//,
+	/^~/,
+	/^\./,
+	/^@/,
+	/^=>/,
+	/^\[/,
+	/^\]/,
+	/^{/,
+	/^}/,
+	/^\(/,
+	/^\)/,
+	/^\:/,
+	/^,/,
+	/^\\/,
+	/^;/,
+	/^!/
 ];
 
 const regexKeyWords = [
-	[/^case(?!\w)/i, "KW_CASE"],
-	[/^class(?!\w)/i, "KW_CLASS"],
-	[/^else(?!\w)/i, "KW_ELSE"],
-	[/^esac(?!\w)/i, "KW_ESAC"],
-	[/^fi(?!\w)/i, "KW_FI"],
-	[/^if(?=[^\w])/i, "KW_IF"],
-	[/^inherits(?!\w)/i, "KW_INHERITS"], 
-	[/^isvoid(?!\w)/i, "KW_ISVOID"],
-	[/^in(?!\w)/i, "KW_IN"],
-	[/^let(?!\w)/i, "KW_LET"],
-	[/^loop(?!\w)/i, "KW_LOOP"],
-	[/^new(?!\w)/i, "KW_NEW"],
-	[/^not(?!\w)/i, "KW_NOT"],
-	[/^of(?!\w)/i, "KW_OF"],
-	[/^pool(?!\w)/i, "KW_POOL"],
-	[/^then(?!\w)/i, "KW_THEN"],
-	[/^while(?!\w)/i, "KW_THEN"],
-	[/^true/, "KW_TRUE"],
-	[/^false/, "KW_FALSE"]
+	/^case(?!\w)/i,
+	/^class(?!\w)/i,
+	/^else(?!\w)/i,
+	/^esac(?!\w)/i,
+	/^fi(?!\w)/i,
+	/^if(?=[^\w])/i,
+	/^inherits(?!\w)/i, 
+	/^isvoid(?!\w)/i,
+	/^in(?!\w)/i,
+	/^let(?!\w)/i,
+	/^loop(?!\w)/i,
+	/^new(?!\w)/i,
+	/^not(?!\w)/i,
+	/^of(?!\w)/i,
+	/^pool(?!\w)/i,
+	/^then(?!\w)/i,
+	/^while(?!\w)/i,
+	/^true/,
+	/^false/
 ];
 
 const regexEspecialWords = [
-	[/^self(?!\w)/, "EW_SELF"],
-	[/^SELF_TYPE(?!\w)/, "EW_ST"]
+	/^self(?!\w)/,
+	/^SELF_TYPE(?!\w)/
 ];
 
 function doLexAnalysis(code: string): Array<Token>{
 	let line = 1;
 	let tokens = new Array<Token>();
 	while (code.length > 0){
-		//Remove line coment
+		//Remove line comment
 		if (code.match(regexLineComment)){
 			code = code.replace(regexLineComment, "");
 			continue;
 		}
 
+		//Remove multi line comments
+		const capturedComment = code.match(regexMultiLineComment);
+		if (capturedComment) {
+			const newLines = capturedComment[0].match(regexNewLines);
+			if (newLines)
+				line+=newLines.length;
+			code = code.replace(regexMultiLineComment, "");
+			continue;
+		}
+
+		//Capture strings
+		const capturedString = code.match(regexString);
+		if (capturedString) {
+			code = code.replace(regexString, "");
+			tokens.push(
+				new Token(
+					capturedString[0],
+					line,
+					"String"
+				)
+			)
+			const newLines = capturedString[0].match(regexNewLines);
+			if (newLines)
+				line+=newLines.length;
+			continue;
+		}
+		
 		//Remove new line
 		if (code.match(regexNewLine)){
 			line++;
@@ -86,16 +117,18 @@ function doLexAnalysis(code: string): Array<Token>{
 			continue;
 		}
 
-
-
-
-
-		
 		//Capture symbols
 		let replace = regexSymbols.map(regex => {
-			if (code.match(regex[0])) {
-				code = code.replace(regex[0], "");
-				tokens.push(new Token(regex[1], line))
+			const symbol = code.match(regex);
+			if (symbol) {
+				code = code.replace(regex, "");
+				tokens.push(
+					new Token(
+						symbol[0],
+						line,
+						"Symbol"
+					)
+				);
 				return true;
 			}			
 		});
@@ -103,9 +136,16 @@ function doLexAnalysis(code: string): Array<Token>{
 
 		//Capture keywords
 		let verifyKeyWords = regexKeyWords.map(regex => {
-			if (code.match(regex[0])) {
-				code = code.replace(regex[0], "");
-				tokens.push(new Token(regex[1], line))
+			const keyWord = code.match(regex);
+			if (keyWord) {
+				code = code.replace(regex, "");
+				tokens.push(
+					new Token(
+						keyWord[0].toLocaleUpperCase(),
+						line,
+						"KeyWord"
+					)
+				);
 				return true;
 			}			
 		});
@@ -114,9 +154,16 @@ function doLexAnalysis(code: string): Array<Token>{
 
 		//Capture especial words
 		let verifyEspecialWords = regexEspecialWords.map(regex => {
-			if (code.match(regex[0])) {
-				code = code.replace(regex[0], "");
-				tokens.push(new Token(regex[1], line))
+			const especialWord = code.match(regex);
+			if (especialWord) {
+				code = code.replace(regex, "");
+				tokens.push(
+					new Token(
+						especialWord[0],
+						line,
+						"Especial Word"
+					)
+				);
 				return true;
 			}			
 		});
@@ -125,7 +172,7 @@ function doLexAnalysis(code: string): Array<Token>{
 		let capturedWord = code.match(regexWord);
 		if (capturedWord){
 			code = code.replace(regexWord, "");
-			tokens.push(new Token(capturedWord[0], line))
+			tokens.push(new Token(capturedWord[0], line, "ID"))
 			continue;
 		}
 

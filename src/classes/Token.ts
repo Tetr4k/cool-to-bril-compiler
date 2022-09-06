@@ -1,10 +1,15 @@
 class Token{
 	private line: number;
 	private word: (string|RegExp);
+	private tokenType: string;
 
-	constructor(word: (string|RegExp), line: number){
+	constructor(word: (string|RegExp), line: number, tokenType?: string){
 		this.word = word;
 		this.line = line;
+		if (tokenType == undefined)
+			this.tokenType = "Symbol"
+		else
+			this.tokenType = tokenType
 	}
 
 	get getLine(): number{
@@ -16,7 +21,7 @@ class Token{
 	}
 
 	public toString(): string{
-		return `"${this.word}" from line ${this.line}`;
+		return `${this.tokenType}: "${this.word}" from line ${this.line}`;
 	}
 }
 
