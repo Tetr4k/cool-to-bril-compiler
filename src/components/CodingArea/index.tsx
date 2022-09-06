@@ -42,7 +42,7 @@ const CodingArea = (props: codingAreaProps) => {
 				htmlFor="code" 
 				className="coding-input"
 			>
-				{React.cloneElement(props.children, { 
+				{React.cloneElement(props.children, {
 					rows: rows,
 					onInput: handleLineInput,
 					id: "code",

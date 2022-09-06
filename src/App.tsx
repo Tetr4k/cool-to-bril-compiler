@@ -21,16 +21,6 @@ function App(){
 		setErrorLine(0);
 	}
 
-	const renderTokens = () => {
-		return tokens.map((element, index) => {
-			return (
-				<li key={index}>
-					{element.toString()}
-				</li>
-			)
-		})
-	}
-
 	const runCompiler = () => {
 		console.log(code);
 		const newTokens = doLexAnalysis(code);
@@ -47,6 +37,16 @@ function App(){
 
 		if (newTokens.length > 0)
 			toggle(true);
+	}
+
+	const renderTokens = () => {
+		return tokens.map((element, index) => {
+			return (
+				<li key={index}>
+					{element.toString()}
+				</li>
+			)
+		})
 	}
 
 	return (

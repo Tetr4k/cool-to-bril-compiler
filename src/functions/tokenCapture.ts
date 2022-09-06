@@ -4,7 +4,7 @@ import ErrorToken from "../classes/ErrorToken";
 const regexString = /^\"[^]*?\"/;
 
 const regexLineComment = /^--.*(?=\n|$)/;
-const regexMultiLineComment = /^\(\*[^]*?\*\)/
+const regexMultiLineComment = /^\(\*[^]*?\*\)/;
 
 const regexWord = /^[0-9a-z_]+/i;
 
@@ -16,28 +16,23 @@ const regexWhiteSpace = /^[\f\r\t\v\s]+/;
 const regexSymbols = [
 	/^<-/,	// <-
 	/^<=/,	// <=
-	/^>/,	// >
 	/^</,	// <
 	/^=/,	// =
 	/^\+/,	// +
 	/^-/,	// -
 	/^\*/,	// *
-	/^\//,	// \
+	/^\//,	// /
 	/^~/,	// ~
 	/^\./,	// .
 	/^@/,	// @
 	/^=>/,	// =>
-	/^\[/,	// [
-	/^\]/,	// ]
 	/^{/,	// {
 	/^}/,	// }
 	/^\(/,	// (
 	/^\)/,	// )
 	/^\:/,	// :
 	/^,/,	// ,
-	/^\\/,	// \
-	/^;/,	// ;
-	/^!/	// !
+	/^;/	// ;
 ];
 
 const regexKeyWords = [
@@ -143,7 +138,7 @@ function doLexAnalysis(code: string): Array<Token>{
 					new Token(
 						keyWord[0].toLocaleUpperCase(),
 						line,
-						"KeyWord"
+						"Keyword"
 					)
 				);
 				return true;
