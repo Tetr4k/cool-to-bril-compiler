@@ -36,14 +36,17 @@ const CodingArea = (props: codingAreaProps) => {
 		})
 	}
 
+	const boxClass = classNames('coding-box', {dark: props.theme});
+	const inputClass = classNames('coding-input', {dark: props.theme});
+
 	return (
-		<div className="coding-box">
+		<div className={boxClass}>
 			<ol className="coding-list">
 				{renderLineIndex()}
 			</ol>
 			<label 
 				htmlFor="code" 
-				className="coding-input"
+				className={inputClass}
 			>
 				<textarea
 					rows={rows}

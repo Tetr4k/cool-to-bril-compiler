@@ -1,17 +1,34 @@
+/*Framework imports*/
 import React from "react";
-import './index.css';
-import { FaPlay } from 'react-icons/fa';
-import { BiHide, BiShow } from 'react-icons/bi';
 import { useState } from "react";
-import useToggle from './hooks/useToggle';
+
+/*Style imports*/
+import './index.css';
+
+/*Icons imports*/
+import { FaPlay } from 'react-icons/fa';
+import { FaSun } from 'react-icons/fa';
+import { FaMoon } from 'react-icons/fa';
+import { BiHide, BiShow } from 'react-icons/bi';
+
+/*Components imports*/
 import CodingArea from "./components/CodingArea";
 import CompiledArea from "./components/CompiledArea";
 import Debug from "./components/Debug";
+
+/*Class imports*/
 import ErrorToken from "./classes/ErrorToken";
-import doLexAnalysis from "./functions/tokenCapture";
 import Token from "./classes/Token";
 
+/*Custom hooks imports*/
+import useToggle from './hooks/useToggle';
+
+/*Function imports*/
+import doLexAnalysis from "./utils/lexicalAnalysis";
+import classNames from "classnames";
+
 function App(){
+	const [theme, toggleTheme] = useToggle(true);
 	const [show, toggle] = useToggle(false);
 	const [coolCode, setCoolCode] = useState("");
 	const [errorLine, setErrorLine] = useState(0);
@@ -26,37 +43,54 @@ function App(){
 	}
 
 	const runCompiler = () => {
+		setErrorMessage("");
 		try{
-			setErrorMessage("");
 			const newTokens = doLexAnalysis(coolCode);
 			setTokens(newTokens);
 		}
 		catch (error){
-			if (error instanceof ErrorToken){
-				setErrorMessage(error.toString());
-				setErrorLine(error.getLine);
+			if (error){
+				if (error instanceof ErrorToken){
+					setErrorMessage(error.toString());
+					setErrorLine(error.getLine);
+				}
+				toggle(true);
 			}
-			else
-				setErrorMessage("Error: unknow")
-			toggle(true);
 		}
 	}
 
+	const appClass = classNames('app-content', {dark: theme});
+
 	return (
-		<div className="app-content">
+		<div className={appClass}>
 			<nav>
 				<button onClick={runCompiler}>
 					<FaPlay/>
 				</button>
-				<button onClick={() => toggle()}>
+					<button onClick={() => toggle()}>
 					{show?<BiShow/>:<BiHide/>}
+				</button>
+				<button onClick={() => toggleTheme()}>
+					{theme?<FaSun/>:<FaMoon/>}
 				</button>
 			</nav>
 			<main>
-				<CodingArea code={coolCode} errorLine={errorLine} onChange={handleCodeChange}/>
-				<CompiledArea code={tokens.toString()}/>
+				<CodingArea
+					code={coolCode}
+					errorLine={errorLine}
+					onChange={handleCodeChange}
+					theme={theme}
+				/>
+				<CompiledArea 
+					code={tokens.toString()}
+					theme={theme}
+				/>
 			</main>
-			<Debug show={show} errorMessage={errorMessage}/>
+			<Debug
+				show={show}
+				errorMessage={errorMessage}
+				theme={theme}
+			/>
 			<footer>
 				<a href="https://github.com/Tetr4k/cool-to-bril-compiler/">Repository</a>
 			</footer>

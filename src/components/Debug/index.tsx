@@ -1,8 +1,11 @@
 import React from "react";
 import debugProps from "./props";
 import { CSSTransition } from 'react-transition-group';
+import classNames from "classnames";
 
 const Debug = (props: debugProps) => {
+	const messageClass = classNames('message', {dark: props.theme})
+
 	return (
 			<CSSTransition
 				in={props.show}
@@ -10,9 +13,11 @@ const Debug = (props: debugProps) => {
 				classNames='content'
 				unmountOnExit
 			>
-				<p className="content">
-					{props.errorMessage}
-				</p>
+				<div className='content'>
+					<p className={messageClass}>
+						{props.errorMessage}
+					</p>
+				</div>
 			</CSSTransition>
 	);
 }
