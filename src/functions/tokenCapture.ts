@@ -11,7 +11,7 @@ const regexWord = /^\w+/i;
 const regexNewLine = /^\n/;
 const regexNewLines = /\n/g;
 
-const regexWhiteSpace = /^[\f\r\t\v\s]+/;
+const regexWhiteSpace = /^[\f\t\s\r\v]/;
 
 const regexSymbols = [
 	/^<-/,	// <-
