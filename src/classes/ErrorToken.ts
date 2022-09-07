@@ -2,7 +2,7 @@ import Token from "./Token";
 
 class ErrorToken extends Token{
 	constructor(word: string, line: number){
-		super(word, line);
+		super(word, line, "char");
 	}
 
 	public toString(): string {

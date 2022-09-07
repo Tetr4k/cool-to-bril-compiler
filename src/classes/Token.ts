@@ -21,7 +21,7 @@ class Token{
 	}
 
 	public toString(): string{
-		return `${this.tokenType}: "${this.word}" from line ${this.line}`;
+		return `${this.tokenType} "${this.word}" from line ${this.line}`;
 	}
 }
 
