@@ -22,11 +22,14 @@ const CodingArea = (props: codingAreaProps) => {
 		return rowsList.map((value, index) => {
 			const listClassName = classNames(
 				'destaque',
-				{odd: index%2 == 0},
-				{error: index == props.error-1}
+				{odd: index % 2 == 0},
+				{error: index == props.errorLine-1}
 			);
 			return (
-				<li key={index} className={listClassName}>
+				<li
+					key={index}
+					className={listClassName}
+				>
 					{value+1}
 				</li>
 			);
@@ -42,12 +45,13 @@ const CodingArea = (props: codingAreaProps) => {
 				htmlFor="code" 
 				className="coding-input"
 			>
-				{React.cloneElement(props.children, {
-					rows: rows,
-					onInput: handleLineInput,
-					id: "code",
-					placeholder: "Code here . . ."
-				})}
+				<textarea
+					rows={rows}
+					onInput={handleLineInput}
+					id="code"
+					placeholder="Code here . . ."
+					onChange={props.onChange}
+				/>
 			</label>
 		</div>
 	)

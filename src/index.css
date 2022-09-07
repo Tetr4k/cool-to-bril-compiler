@@ -37,7 +37,7 @@ button:hover{
 	color: #AAAAAA;
 }
 
-.coding-box{
+.coding-box, .compiled-box{
 	background: #DDDDDD;
 	border: solid black 1px;
 	box-shadow: 1rem 1rem 2rem 0.5rem black;
@@ -45,10 +45,10 @@ button:hover{
 	height: 64vh;
 	overflow-y: scroll;
 	overflow-x: hidden;
-	width: 50%;
+	width: 40%;
 }
 
-.coding-list li{
+.coding-list li, .compiled-list li{
 	color: white;
 	font-size: 12px;
 	font-weight: bold;

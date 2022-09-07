@@ -172,8 +172,7 @@ function doLexAnalysis(code: string): Array<Token>{
 		}
 
 		//Token não identificado
-		tokens.push(new ErrorToken(code.charAt(0), line));
-		break;
+		throw new ErrorToken(`${code.charAt(0)}`, line);
 	} 
 	return tokens;
 }

@@ -5,48 +5,41 @@ import { BiHide, BiShow } from 'react-icons/bi';
 import { useState } from "react";
 import useToggle from './hooks/useToggle';
 import CodingArea from "./components/CodingArea";
+import CompiledArea from "./components/CompiledArea";
 import Debug from "./components/Debug";
-import Token from "./classes/Token";
 import ErrorToken from "./classes/ErrorToken";
 import doLexAnalysis from "./functions/tokenCapture";
+import Token from "./classes/Token";
 
 function App(){
-	const [state, toggle] = useToggle(false);
-	const [code, setCode] = useState("");
+	const [show, toggle] = useToggle(false);
+	const [coolCode, setCoolCode] = useState("");
 	const [errorLine, setErrorLine] = useState(0);
-	const [tokens, setTokens] = useState(new Array<(Token)>);
+	const [errorMessage, setErrorMessage] = useState("");
 
-	const handleCodeChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-		setCode(event.target.value);
+	//states temporarios
+	const [tokens, setTokens] = useState(new Array<Token>);
+
+	const handleCodeChange = (event: React.ChangeEvent<HTMLTextAreaElement> ) => {
+		setCoolCode(event.target.value);
 		setErrorLine(0);
 	}
 
 	const runCompiler = () => {
-		console.log(code);
-		const newTokens = doLexAnalysis(code);
-		const lastToken = newTokens.reverse().at(0);
-
-		if (lastToken instanceof ErrorToken){
-			setErrorLine(lastToken.getLine);
-			setTokens([lastToken]);
+		try{
+			setErrorMessage("");
+			const newTokens = doLexAnalysis(coolCode);
+			setTokens(newTokens);
 		}
-		else{
-			setErrorLine(0);
-			setTokens(newTokens.reverse());
-		}
-
-		if (newTokens.length > 0)
+		catch (error){
+			if (error instanceof ErrorToken){
+				setErrorMessage(error.toString());
+				setErrorLine(error.getLine);
+			}
+			else
+				setErrorMessage("Error: unknow")
 			toggle(true);
-	}
-
-	const renderTokens = () => {
-		return tokens.map((element, index) => {
-			return (
-				<li key={index}>
-					{element.toString()}
-				</li>
-			)
-		})
+		}
 	}
 
 	return (
@@ -56,17 +49,14 @@ function App(){
 					<FaPlay/>
 				</button>
 				<button onClick={() => toggle()}>
-					{state?<BiShow/>:<BiHide/>}
+					{show?<BiShow/>:<BiHide/>}
 				</button>
 			</nav>
 			<main>
-				<CodingArea code={code} error={errorLine}>
-					<textarea onChange={handleCodeChange}/>
-				</CodingArea>
+				<CodingArea code={coolCode} errorLine={errorLine} onChange={handleCodeChange}/>
+				<CompiledArea code={tokens.toString()}/>
 			</main>
-			<Debug show={state}>
-				{renderTokens()}
-			</Debug>
+			<Debug show={show} errorMessage={errorMessage}/>
 			<footer>
 				<a href="https://github.com/Tetr4k/cool-to-bril-compiler/">Repository</a>
 			</footer>

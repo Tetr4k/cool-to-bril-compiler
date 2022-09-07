@@ -1,7 +1,9 @@
+import { ChangeEventHandler } from "react";
+
 type codingAreaProps = {
 	code: string;
-	children?: any;
-	error: number;
+	errorLine: number;
+	onChange?: ChangeEventHandler;
 }
 
 export default codingAreaProps;

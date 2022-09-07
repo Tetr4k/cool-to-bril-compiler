@@ -1,6 +1,6 @@
 type debugProps = {
+	errorMessage: string;
 	show: boolean;
-	children?: any;
 }
 
 export default debugProps;
