@@ -6,7 +6,7 @@ const regexString = /^\"[^]*?\"/;
 const regexLineComment = /^--.*(?=\n|$)/;
 const regexMultiLineComment = /^\(\*[^]*?\*\)/;
 
-const regexWord = /^[0-9a-z_]+/i;
+const regexWord = /^\w+/i;
 
 const regexNewLine = /^\n/;
 const regexNewLines = /\n/g;
