@@ -1,0 +1,141 @@
+.app-content
+	background: #AAAAAA
+	display: flex
+	flex-direction: column
+	justify-content: space-between
+	height: 100vh
+	overflow: hidden
+	width: 100vw
+
+	&.dark
+		background: #111111
+
+main
+	align-items: center
+	display: flex
+	height: 90vh
+	justify-content: space-around
+	width: 100%
+
+nav
+	align-items: center
+	background: #000088
+	display: flex
+	gap: 1rem
+	justify-content: center
+	width: 100%
+
+button
+	background: none
+	border: none
+	color: white
+	padding: 0.5rem
+	font-size: 2rem
+
+	&:hover
+		color: #AAAAAA
+
+.coding-box, .compiled-box
+	background: #DDDDDD
+	border: none
+	box-shadow: 1rem 1rem 2rem 0.1rem black
+	display: flex
+	height: 64vh
+	overflow-y: scroll
+	overflow-x: hidden
+	width: 40%
+
+.coding-box.dark, .compiled-box.dark
+	background: #333333
+
+
+.coding-list, .compiled-list
+	li
+		color: white
+		font-size: 12px
+		font-weight: bold
+		line-height: 16px
+		padding-right: 0.5rem
+		text-align: right
+		width: 3rem
+
+		&.destaque
+			background: #000088
+
+		&.odd
+			background: #0000BB
+
+		&.error
+			background: red
+			color: yellow
+
+.coding-input
+	flex-grow: 1
+
+	& textarea
+		background: #DDDDDD
+		border: none
+		color: black
+		font-size: 14px
+		height: auto
+		padding: 0 0 0 0.1rem
+		line-height: 16px
+		resize: none
+		outline: none
+		white-space: pre
+		width: 100%
+		overflow-wrap: normal
+		overflow-x: auto
+
+		&::placeholder
+			color: #888888
+			font-weight: bolder
+			font-style: italic
+
+	&.dark textarea
+		background: #333333
+		color: white
+
+footer
+	background: #000088
+	display: flex
+	height: 5vh
+	justify-content: center
+	width: 100%
+
+a, a:visited
+	color: white
+	font-size: 1.5rem
+	padding: 0.5rem
+	text-decoration: none
+
+.message
+	background: #EEEEEE
+	border-top: solid black 1px
+	color: black
+	height: 15vh
+	padding: 1rem
+	overflow-y: scroll
+
+	&.dark
+		background: #111111
+		border-top: solid white 1px
+		color: white
+
+.content
+	height: 15vh
+	width: 100%
+
+.content-enter
+	height: 0
+  
+.content-enter-active
+	height: 15vh
+	transition: height 0.3s ease-in
+
+.content-exit
+	height: 15vh
+
+.content-exit-active
+	height: 0
+	transition: height 0.3s ease-out
