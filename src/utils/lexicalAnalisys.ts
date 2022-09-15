@@ -3,11 +3,12 @@ import ErrorToken from "../classes/ErrorToken";
 import TokenType from "../types/TokenType";
 
 const regexString = /^\"[^]*?\"/;
+const regexInteger =  /^\d+/;
 
 const regexLineComment = /^--.*(?=\n|$)/;
 const regexMultiLineComment = /^\(\*[^]*?\*\)/;
 
-const regexWord = /^\w+/i;
+const regexID = /^\w+/i;
 
 const regexNewLine = /^\n/;
 const regexNewLines = /\n/g;
@@ -157,7 +158,7 @@ function doLexAnalysis(code: string): Array<Token>{
 					new Token(
 						especialWord[0],
 						line,
-						TokenType.KEYWORD
+						TokenType.ESPECIAL
 					)
 				);
 				return true;
@@ -165,12 +166,25 @@ function doLexAnalysis(code: string): Array<Token>{
 		});
 		if (verifyEspecialWords.includes(true)) continue;
 
-		let capturedWord = code.match(regexWord);
-		if (capturedWord){
-			code = code.replace(regexWord, "");
+		let capturedInteger = code.match(regexInteger);
+		if (capturedInteger){
+			code = code.replace(regexID, "");
 			tokens.push(
 				new Token(
-					capturedWord[0],
+					capturedInteger[0],
+					line,
+					TokenType.INTEGER
+				)
+			);
+			continue;
+		}
+
+		let capturedID = code.match(regexID);
+		if (capturedID){
+			code = code.replace(regexID, "");
+			tokens.push(
+				new Token(
+					capturedID[0],
 					line,
 					TokenType.ID
 				)
