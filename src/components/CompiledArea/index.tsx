@@ -23,13 +23,14 @@ const CompiledArea = (props: compiledAreaProps) => {
 	}
 
 	const boxClass = classNames('compiled-box', {dark: props.theme});
+	const outputClass = classNames('compiled-output', {dark: props.theme});
 
 	return (
 		<div className={boxClass}>
-			<ol className="compiled-list">
+			<ol className="line-index">
 				{renderLineIndex()}
 			</ol>
-			<p>
+			<p className={outputClass}>
 				{props.code}
 			</p>
 		</div>

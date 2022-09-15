@@ -24,7 +24,7 @@ import Token from "./classes/Token";
 import useToggle from './hooks/useToggle';
 
 /*Function imports*/
-import doLexAnalysis from "./utils/lexicalAnalysis";
+import doLexAnalysis from "./utils/lexicalAnalisys";
 import classNames from "classnames";
 
 function App(){
@@ -34,9 +34,6 @@ function App(){
 	const [errorLine, setErrorLine] = useState(0);
 	const [errorMessage, setErrorMessage] = useState("");
 
-	//states temporarios
-	const [tokens, setTokens] = useState(new Array<Token>);
-
 	const handleCodeChange = (event: React.ChangeEvent<HTMLTextAreaElement> ) => {
 		setCoolCode(event.target.value);
 		setErrorLine(0);
@@ -45,8 +42,7 @@ function App(){
 	const runCompiler = () => {
 		setErrorMessage("");
 		try{
-			const newTokens = doLexAnalysis(coolCode);
-			setTokens(newTokens);
+			const tokens = doLexAnalysis(coolCode);
 		}
 		catch (error){
 			if (error){
@@ -67,7 +63,7 @@ function App(){
 				<button onClick={runCompiler}>
 					<FaPlay/>
 				</button>
-					<button onClick={() => toggle()}>
+				<button onClick={() => toggle()}>
 					{show?<BiShow/>:<BiHide/>}
 				</button>
 				<button onClick={() => toggleTheme()}>
@@ -82,7 +78,6 @@ function App(){
 					theme={theme}
 				/>
 				<CompiledArea 
-					code={tokens.toString()}
 					theme={theme}
 				/>
 			</main>

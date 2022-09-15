@@ -41,7 +41,7 @@ const CodingArea = (props: codingAreaProps) => {
 
 	return (
 		<div className={boxClass}>
-			<ol className="coding-list">
+			<ol className="line-index">
 				{renderLineIndex()}
 			</ol>
 			<label 

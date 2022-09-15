@@ -54,7 +54,7 @@ button:hover {
   background: #333333;
 }
 
-.coding-list li, .compiled-list li {
+.line-index li {
   color: white;
   font-size: 12px;
   font-weight: bold;
@@ -63,13 +63,13 @@ button:hover {
   text-align: right;
   width: 3rem;
 }
-.coding-list li.destaque, .compiled-list li.destaque {
+.line-index li.destaque {
   background: #000088;
 }
-.coding-list li.odd, .compiled-list li.odd {
+.line-index li.odd {
   background: #0000BB;
 }
-.coding-list li.error, .compiled-list li.error {
+.line-index li.error {
   background: red;
   color: yellow;
 }
@@ -108,6 +108,23 @@ button:hover {
   font-style: italic;
 }
 .coding-input.dark textarea {
+  background: #333333;
+  color: white;
+}
+
+.compiled-output {
+  background: #DDDDDD;
+  color: black;
+  font-size: 14px;
+  height: auto;
+  padding: 0 0 0 0.1rem;
+  line-height: 16px;
+  white-space: pre;
+  width: 100%;
+  overflow-wrap: normal;
+  overflow-x: auto;
+}
+.compiled-output.dark {
   background: #333333;
   color: white;
 }
