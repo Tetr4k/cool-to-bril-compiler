@@ -1,5 +1,6 @@
 import Token from "../classes/Token";
 import ErrorToken from "../classes/ErrorToken";
+import TokenType from "../types/TokenType";
 
 const regexString = /^\"[^]*?\"/;
 
@@ -90,7 +91,7 @@ function doLexAnalysis(code: string): Array<Token>{
 				new Token(
 					capturedString[0],
 					line,
-					"String"
+					TokenType.STRING
 				)
 			)
 			const newLines = capturedString[0].match(regexNewLines);
@@ -121,7 +122,7 @@ function doLexAnalysis(code: string): Array<Token>{
 					new Token(
 						symbol[0],
 						line,
-						"Symbol"
+						TokenType.SYMBOL
 					)
 				);
 				return true;
@@ -138,7 +139,7 @@ function doLexAnalysis(code: string): Array<Token>{
 					new Token(
 						keyWord[0].toLocaleUpperCase(),
 						line,
-						"Keyword"
+						TokenType.KEYWORD
 					)
 				);
 				return true;
@@ -156,7 +157,7 @@ function doLexAnalysis(code: string): Array<Token>{
 					new Token(
 						especialWord[0],
 						line,
-						"Especial Word"
+						TokenType.KEYWORD
 					)
 				);
 				return true;
@@ -167,7 +168,13 @@ function doLexAnalysis(code: string): Array<Token>{
 		let capturedWord = code.match(regexWord);
 		if (capturedWord){
 			code = code.replace(regexWord, "");
-			tokens.push(new Token(capturedWord[0], line, "ID"))
+			tokens.push(
+				new Token(
+					capturedWord[0],
+					line,
+					TokenType.ID
+				)
+			);
 			continue;
 		}
 

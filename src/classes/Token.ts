@@ -1,15 +1,14 @@
+import TokenType from "../types/TokenType";
+
 class Token{
 	private line: number;
 	private word: string;
-	private tokenType: string;
+	private tokenType: TokenType;
 
-	constructor(word: string, line: number, tokenType?: string){
+	constructor(word: string, line: number, tokenType: TokenType){
 		this.word = word;
 		this.line = line;
-		if (tokenType == undefined)
-			this.tokenType = "Symbol";
-		else
-			this.tokenType = tokenType;
+		this.tokenType = tokenType;
 	}
 
 	get getLine(): number{
@@ -18,6 +17,10 @@ class Token{
 
 	get getWord(): string{
 		return this.word;
+	}
+
+	get getType(): string{
+		return this.tokenType.toString();
 	}
 
 	public toString(): string{
