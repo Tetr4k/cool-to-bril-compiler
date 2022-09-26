@@ -5,6 +5,7 @@ enum TokenType{
 	KEYWORD,
 	STRING,
 	SYMBOL,
+	TYPE
 }
 
 export default TokenType;

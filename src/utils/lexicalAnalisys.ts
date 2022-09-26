@@ -67,7 +67,7 @@ const regexEspecialWords = [
 function doLexAnalysis(code: string): Array<Token>{
 	let line = 1;
 	let tokens = new Array<Token>();
-	while (code.length > 0){
+	while (code.length){
 		//Remove line comment
 		if (code.match(regexLineComment)){
 			code = code.replace(regexLineComment, "");
@@ -138,7 +138,7 @@ function doLexAnalysis(code: string): Array<Token>{
 				code = code.replace(regex, "");
 				tokens.push(
 					new Token(
-						keyWord[0].toLocaleUpperCase(),
+						keyWord[0].toLowerCase(),
 						line,
 						TokenType.KEYWORD
 					)
@@ -166,6 +166,7 @@ function doLexAnalysis(code: string): Array<Token>{
 		});
 		if (verifyEspecialWords.includes(true)) continue;
 
+		//Capture integer
 		let capturedInteger = code.match(regexInteger);
 		if (capturedInteger){
 			code = code.replace(regexID, "");
@@ -179,16 +180,23 @@ function doLexAnalysis(code: string): Array<Token>{
 			continue;
 		}
 
+		//Capture IDs and Types
 		let capturedID = code.match(regexID);
 		if (capturedID){
-			code = code.replace(regexID, "");
+			let tokenType;
+			if (code[0] == code[0].toUpperCase())
+				tokenType = TokenType.TYPE;
+			else
+				tokenType = TokenType.ID;
+			
 			tokens.push(
 				new Token(
 					capturedID[0],
 					line,
-					TokenType.ID
+					tokenType
 				)
 			);
+			code = code.replace(regexID, "");
 			continue;
 		}
 
