@@ -19,8 +19,8 @@ class Token{
 		return this.word;
 	}
 
-	get getType(): string{
-		return this.tokenType.toString();
+	get getType(): TokenType{
+		return this.tokenType;
 	}
 
 	public toString(): string{

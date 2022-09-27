@@ -1,6 +1,7 @@
 import Token from "../classes/Token";
-import ErrorToken from "../classes/ErrorToken";
 import TokenType from "../types/TokenType";
+
+const regexFirstChar = /^./;
 
 const regexString = /^\"[^]*?\"/;
 const regexInteger =  /^\d+/;
@@ -201,7 +202,14 @@ function doLexAnalysis(code: string): Array<Token>{
 		}
 
 		//Token não identificado
-		throw new ErrorToken(`${code.charAt(0)}`, line);
+		tokens.push(
+			new Token(
+				code.charAt(0),
+				line,
+				TokenType.INVALID
+			)
+		)
+		code = code.replace(regexFirstChar, "");
 	} 
 	return tokens;
 }

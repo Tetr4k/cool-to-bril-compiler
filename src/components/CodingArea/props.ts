@@ -2,7 +2,7 @@ import { ChangeEventHandler } from "react";
 
 type codingAreaProps = {
 	code: string;
-	errorLine: number;
+	errors: Array<number>;
 	onChange?: ChangeEventHandler;
 	theme: boolean;
 }

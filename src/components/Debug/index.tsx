@@ -6,6 +6,10 @@ import classNames from "classnames";
 const Debug = (props: debugProps) => {
 	const messageClass = classNames('message', {dark: props.theme})
 
+	const renderErrors = () => props.errors.map(
+		elem => (<li>{elem}</li>)
+	)
+
 	return (
 			<CSSTransition
 				in={props.show}
@@ -14,9 +18,9 @@ const Debug = (props: debugProps) => {
 				unmountOnExit
 			>
 				<div className='content'>
-					<p className={messageClass}>
-						{props.errorMessage}
-					</p>
+					<ol className={messageClass}>
+						{renderErrors()}
+					</ol>
 				</div>
 			</CSSTransition>
 	);

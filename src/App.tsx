@@ -17,8 +17,8 @@ import CompiledArea from "./components/CompiledArea";
 import Debug from "./components/Debug";
 
 /*Class imports*/
-import ErrorToken from "./classes/ErrorToken";
 import Token from "./classes/Token";
+import CompilationError from "./classes/CompilationError";
 
 /*Custom hooks imports*/
 import useToggle from './hooks/useToggle';
@@ -26,33 +26,30 @@ import useToggle from './hooks/useToggle';
 /*Function imports*/
 import doLexAnalysis from "./utils/lexicalAnalisys";
 import classNames from "classnames";
+import TokenType from "./types/TokenType";
 
 function App(){
 	const [theme, toggleTheme] = useToggle(true);
 	const [show, toggle] = useToggle(false);
 	const [coolCode, setCoolCode] = useState("");
-	const [errorLine, setErrorLine] = useState(0);
-	const [errorMessage, setErrorMessage] = useState("");
+	const [errorList, setErrorList] = useState(new Array<CompilationError>());
 
 	const handleCodeChange = (event: React.ChangeEvent<HTMLTextAreaElement> ) => {
 		setCoolCode(event.target.value);
-		setErrorLine(0);
 	}
 
 	const runCompiler = () => {
-		setErrorMessage("");
-		try{
-			const tokens = doLexAnalysis(coolCode);
-		}
-		catch (error){
-			if (error){
-				if (error instanceof ErrorToken){
-					setErrorMessage(error.toString());
-					setErrorLine(error.getLine);
-				}
-				toggle(true);
-			}
-		}
+		setErrorList(new Array<CompilationError>());
+		let newErrorList = new Array<CompilationError>();
+		const tokens = doLexAnalysis(coolCode);
+		newErrorList.push(
+			...tokens
+			.filter(elem => elem.getType == TokenType.INVALID)
+			.map(elem => new CompilationError(`Error: "${elem.getWord}" from line ${elem.getLine} unexpected`, elem.getLine))
+		);
+		if (newErrorList.length)
+			toggle(true);
+		setErrorList(newErrorList);
 	}
 
 	const appClass = classNames('app-content', {dark: theme});
@@ -73,17 +70,18 @@ function App(){
 			<main>
 				<CodingArea
 					code={coolCode}
-					errorLine={errorLine}
+					errors={errorList.map(elem => elem.getLine)}
 					onChange={handleCodeChange}
 					theme={theme}
 				/>
-				<CompiledArea 
+				<CompiledArea
+					code={coolCode} 
 					theme={theme}
 				/>
 			</main>
 			<Debug
 				show={show}
-				errorMessage={errorMessage}
+				errors={errorList.map(elem => elem.getMessage)}
 				theme={theme}
 			/>
 			<footer>

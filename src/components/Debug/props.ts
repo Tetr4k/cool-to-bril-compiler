@@ -1,5 +1,5 @@
 type debugProps = {
-	errorMessage: string;
+	errors: Array<string>;
 	show: boolean;
 	theme: boolean;
 }

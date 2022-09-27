@@ -23,7 +23,7 @@ const CodingArea = (props: codingAreaProps) => {
 			const listClassName = classNames(
 				'destaque',
 				{odd: index % 2 == 0},
-				{error: index == props.errorLine-1}
+				{error: props.errors.includes(index+1)}
 			);
 			return (
 				<li
