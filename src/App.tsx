@@ -25,6 +25,7 @@ import useToggle from './hooks/useToggle';
 
 /*Function imports*/
 import doLexAnalysis from "./utils/lexicalAnalisys";
+import doSynAnalysis from "./utils/syntaxAnalisys";
 import classNames from "classnames";
 import TokenType from "./types/TokenType";
 
@@ -47,6 +48,8 @@ function App(){
 			.filter(elem => elem.getType == TokenType.INVALID)
 			.map(elem => new CompilationError(`Error: "${elem.getWord}" from line ${elem.getLine} unexpected`, elem.getLine))
 		);
+		const syntaxTree = doSynAnalysis(tokens);
+		console.log(syntaxTree)
 		if (newErrorList.length)
 			toggle(true);
 		setErrorList(newErrorList);
