@@ -41,17 +41,27 @@ function App(){
 
 	const runCompiler = () => {
 		setErrorList(new Array<CompilationError>());
+
 		let newErrorList = new Array<CompilationError>();
+
 		const tokens = doLexAnalysis(coolCode);
+
 		newErrorList.push(
 			...tokens
 			.filter(elem => elem.getType == TokenType.INVALID)
+			.map(elem => new CompilationError(`Error: "${elem.getWord}" from line ${elem.getLine} not recognized`, elem.getLine))
+		);
+
+		const /*syntaxTree, */ syntaxErrors = doSynAnalysis(tokens);
+
+		newErrorList.push(
+			...syntaxErrors
 			.map(elem => new CompilationError(`Error: "${elem.getWord}" from line ${elem.getLine} unexpected`, elem.getLine))
 		);
-		const syntaxTree = doSynAnalysis(tokens);
-		console.log(syntaxTree)
+
 		if (newErrorList.length)
 			toggle(true);
+
 		setErrorList(newErrorList);
 	}
 

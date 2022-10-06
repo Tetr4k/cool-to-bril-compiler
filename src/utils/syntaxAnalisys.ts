@@ -120,7 +120,7 @@ transitions.set('CLASS', [
 	new GoToAction(1, 4)
 ]);
 
-function step(tokens: Array<Token>, stack: Array<string>): boolean/*for now*/{
+function step(tokens: Array<Token>, stack: Array<string>, errors = new Array<Token>): Array<Token>/*for now*/{
 
 	const nextToken = tokens.pop();
 	const nextState = stack.pop();
@@ -147,7 +147,7 @@ function step(tokens: Array<Token>, stack: Array<string>): boolean/*for now*/{
 				tokens.pop();
 				stack.push(nextWord);
 				stack.push(nextAction.next.toString());
-				return step(tokens, stack);
+				return step(tokens, stack, errors);
 			}
 
 			if (nextAction instanceof ReduceAction){
@@ -179,17 +179,22 @@ function step(tokens: Array<Token>, stack: Array<string>): boolean/*for now*/{
 					}
 				}
 
-				return step(tokens, stack);
+				return step(tokens, stack, errors);
 			}
 
 			if (nextAction instanceof AcceptAction)
-				return true;
+				return errors;
+		}
+		else{
+			errors.push(nextToken);
+			tokens.pop();
+			return step(tokens, stack, errors);
 		}
 	}
-	return false;
+	return [];
 }
 
-function doSynAnalysis(tokens: Array<Token>): boolean/*for now*/{
+function doSynAnalysis(tokens: Array<Token>): Array<Token>/*for now*/{
 	tokens = tokens.filter(
 		elem => elem.getType != TokenType.INVALID
 	);
