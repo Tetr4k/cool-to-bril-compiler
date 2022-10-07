@@ -4,6 +4,7 @@ import { Action, AcceptAction, GoToAction, ReduceAction, ShiftAction } from "../
 
 const staticTokenTypes = [TokenType.ESPECIAL, TokenType.KEYWORD, TokenType.SYMBOL];
 
+//Cool grammar mutated
 let grammar = [
 	['PROGRAM', ['PROGRAM', 'CLASS']],
 	['PROGRAM', ['CLASS']],
@@ -68,6 +69,7 @@ let grammar = [
 	['EXPR', ['false']]
 ]
 
+//Transitions table
 let transitions = new Map<string, Action[]>();
 
 transitions.set('class', [
@@ -120,15 +122,52 @@ transitions.set('CLASS', [
 	new GoToAction(1, 4)
 ]);
 
-function step(tokens: Array<Token>, stack: Array<string>, errors = new Array<Token>): Array<Token>/*for now*/{
+//Shift function
+function shift(stack: Array<string>, word: string, state: number){
+	stack.push(word);
+	stack.push(state.toString());
+	return stack;
+}
+
+//Shift function
+function reduce(stack: Array<string>, rule: number): Array<string>{
+	const nonTerminal = grammar[rule][0];
+
+	for(let i = 0; i < grammar[rule][1].length*2; i++)
+		stack.pop()
+
+	const goToState = stack.pop();
+
+	if(goToState){
+		stack.push(goToState);
+
+		let goToActions
+		if (nonTerminal){
+			goToActions = transitions.get(nonTerminal.toString())
+
+			if (goToActions){
+				const goToAction = goToActions.filter(
+					elem => elem.previous == parseInt(goToState)
+				).at(0);
+
+				stack.push(nonTerminal.toString())
+
+				if (goToAction instanceof GoToAction)
+					stack.push(goToAction.next.toString());
+			}
+		}
+	}
+	return stack;
+}
+
+//Step function
+function step(tokens: Array<Token>, stack: Array<string>, unexpected = new Array<Token>): Array<Token>/*for now*/{
 
 	const nextToken = tokens.pop();
 	const nextState = stack.pop();
 
 	if (nextToken && nextState){
-
 		stack.push(nextState);
-		tokens.push(nextToken);
 
 		let nextWord
 		if (staticTokenTypes.includes(nextToken.getType))
@@ -138,62 +177,42 @@ function step(tokens: Array<Token>, stack: Array<string>, errors = new Array<Tok
 
 		const nextActions = transitions.get(nextWord);
 
-		if(nextActions){
+		if (nextActions){
+
+			//Get next action object
 			const nextAction = nextActions.filter(
 				elem => elem.previous == parseInt(nextState)
 			).at(0);
 
+			//Shift
 			if (nextAction instanceof ShiftAction){
-				tokens.pop();
-				stack.push(nextWord);
-				stack.push(nextAction.next.toString());
-				return step(tokens, stack, errors);
+				stack = shift(stack, nextWord, nextAction.next)
+				return step(tokens, stack, unexpected);
 			}
 
+			//Reduce
 			if (nextAction instanceof ReduceAction){
-				const rule = nextAction.getRule;
-				const nonTerminal = grammar[rule][0];
-
-				for(let i = 0; i < grammar[rule][1].length*2; i++)
-					stack.pop()
-
-				const goToState = stack.pop();
-
-				if(goToState){
-					stack.push(goToState);
-
-					let goToActions
-					if (nonTerminal){
-						goToActions = transitions.get(nonTerminal.toString())
-
-						let goToAction
-						if(goToActions)
-							goToAction = goToActions.filter(
-								elem => elem.previous == parseInt(goToState)
-							).at(0);
-
-						stack.push(nonTerminal.toString())
-
-						if (goToAction instanceof GoToAction)
-							stack.push(goToAction.next.toString());
-					}
-				}
-
-				return step(tokens, stack, errors);
+				tokens.push(nextToken);
+				stack = reduce(stack, nextAction.getRule);
+				return step(tokens, stack, unexpected);
 			}
 
-			if (nextAction instanceof AcceptAction)
-				return errors;
+			//Accept
+			if (nextAction instanceof AcceptAction){
+				console.log("Accept");
+				return unexpected;
+			}
 		}
 		else{
-			errors.push(nextToken);
+			unexpected.push(nextToken);
 			tokens.pop();
-			return step(tokens, stack, errors);
+			return step(tokens, stack, unexpected);
 		}
 	}
-	return [];
+	return unexpected;
 }
 
+//doSynAnalysis function
 function doSynAnalysis(tokens: Array<Token>): Array<Token>/*for now*/{
 	tokens = tokens.filter(
 		elem => elem.getType != TokenType.INVALID
