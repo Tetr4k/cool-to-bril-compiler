@@ -4,9 +4,9 @@ A Cool(Classroom Object Oriented Language) to Bril(Big Red Intermediate Language
 
 To do:
 
-- [x] [App design](src/App.tsx)
+- [X] [App design](src/App.tsx)
 - [X] [Lexical analysis](src/utils/lexicalAnalisys.ts)
-- [ ] Syntax analysis
+- [X] [Syntax analysis](src/utils/syntaxAnalisys.ts)
 - [ ] Semantic analysis
 - [ ] Code generation
 - [ ] Optimization
