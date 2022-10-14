@@ -7,7 +7,7 @@ const Debug = (props: debugProps) => {
 	const messageClass = classNames('message', {dark: props.theme})
 
 	const renderErrors = () => props.errors.map(
-		elem => (<li>{elem}</li>)
+		(elem, key) => (<li key={key}>{elem.toString()}</li>)
 	)
 
 	return (

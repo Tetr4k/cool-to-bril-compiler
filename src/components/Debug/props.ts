@@ -1,5 +1,7 @@
+import { CompilationError } from "../../classes/Errors";
+
 type debugProps = {
-	errors: Array<string>;
+	errors: Array<CompilationError>;
 	show: boolean;
 	theme: boolean;
 }

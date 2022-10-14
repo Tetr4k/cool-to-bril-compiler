@@ -16,10 +16,6 @@ import CodingArea from "./components/CodingArea";
 import CompiledArea from "./components/CompiledArea";
 import Debug from "./components/Debug";
 
-/*Class imports*/
-import Token from "./classes/Token";
-import CompilationError from "./classes/CompilationError";
-
 /*Custom hooks imports*/
 import useToggle from './hooks/useToggle';
 
@@ -27,7 +23,9 @@ import useToggle from './hooks/useToggle';
 import doLexAnalysis from "./utils/lexicalAnalisys";
 import doSynAnalysis from "./utils/syntaxAnalisys";
 import classNames from "classnames";
-import TokenType from "./types/TokenType";
+
+/* Error imports */
+import { CompilationError } from "./classes/Errors"
 
 function App(){
 	const [theme, toggleTheme] = useToggle(true);
@@ -42,27 +40,16 @@ function App(){
 	const runCompiler = () => {
 		setErrorList(new Array<CompilationError>());
 
-		let newErrorList = new Array<CompilationError>();
+		const [tokens, lexicalErrors] = doLexAnalysis(coolCode);
 
-		const tokens = doLexAnalysis(coolCode);
+		const /*[syntaxTree, syntaxErrors]*/ syntaxErrors = doSynAnalysis(tokens);
 
-		newErrorList.push(
-			...tokens
-			.filter(elem => elem.getType == TokenType.INVALID)
-			.map(elem => new CompilationError(`Error: "${elem.getWord}" from line ${elem.getLine} not recognized`, elem.getLine))
-		);
+		const compilationErrors = new Array<CompilationError>(...lexicalErrors, ...syntaxErrors);
 
-		const /*syntaxTree, */ syntaxErrors = doSynAnalysis(tokens);
-
-		newErrorList.push(
-			...syntaxErrors
-			.map(elem => new CompilationError(`Error: "${elem.getWord}" from line ${elem.getLine} unexpected`, elem.getLine))
-		);
-
-		if (newErrorList.length)
+		if (compilationErrors.length)
 			toggle(true);
 
-		setErrorList(newErrorList);
+		setErrorList(compilationErrors);
 	}
 
 	const appClass = classNames('app-content', {dark: theme});
@@ -94,7 +81,7 @@ function App(){
 			</main>
 			<Debug
 				show={show}
-				errors={errorList.map(elem => elem.getMessage)}
+				errors={errorList}
 				theme={theme}
 			/>
 			<footer>
