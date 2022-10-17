@@ -18,6 +18,11 @@ main {
   justify-content: space-around;
   width: 100%;
 }
+@media (orientation: portrait) {
+  main {
+    flex-direction: column;
+  }
+}
 
 nav {
   align-items: center;
@@ -48,6 +53,12 @@ button:hover {
   overflow-y: scroll;
   overflow-x: hidden;
   width: 40%;
+}
+@media (orientation: portrait) {
+  .coding-box, .compiled-box {
+    height: 40vh;
+    width: 80%;
+  }
 }
 
 .coding-box.dark, .compiled-box.dark {

@@ -14,7 +14,7 @@ class CompilationError{
 	}
 
 	public toString(): string {
-		return this.word+" in line "+this.line;
+		return this.word+" from line "+this.line;
 	}
 
 }
