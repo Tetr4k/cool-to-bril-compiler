@@ -56,7 +56,7 @@ button:hover {
 }
 @media (orientation: portrait) {
   .coding-box, .compiled-box {
-    height: 40vh;
+    height: 30vh;
     width: 80%;
   }
 }

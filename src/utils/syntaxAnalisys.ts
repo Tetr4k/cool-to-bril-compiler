@@ -7,8 +7,11 @@ import { getSymbol } from "./functions";
 
 //Step function
 function step(input: Array<Token>, stack = new Array<[string, Token]>(['0', undefined]), errors = new Array<SynError>): Array<SynError>/*for now*/{
-	if (!input.length)
-		return errors
+	if (!input.length){
+		console.log("Deny");
+		return errors;
+	}
+	
 	const nextToken = input.pop();
 	const previousState = stack.pop()[0];
 	
@@ -16,6 +19,7 @@ function step(input: Array<Token>, stack = new Array<[string, Token]>(['0', unde
 
 	const nextWord = getSymbol(nextToken);
 	const nextAction = transitions[parseInt(previousState)][symbols.get(nextWord)];
+
 
 	if (nextAction){
 		//Shift
@@ -36,11 +40,8 @@ function step(input: Array<Token>, stack = new Array<[string, Token]>(['0', unde
 		}
 	}
 	else{
-		//if (nextToken.getType != TokenType.INVALID)
-		console.log(symbols.get(nextWord), previousState, stack.map(elem => elem[0]))
-		console.log(nextAction)
-		//errors = error(nextToken, previousState, input, stack, errors);
-		errors.push(new SynError(nextToken));
+		errors = error(nextToken, previousState, input, stack, errors);
+		//errors.push(new SynError(nextToken));
 		return step(input, stack, errors);
 	}
 }
