@@ -1,20 +1,14 @@
-import { GoToAction } from "../../classes/SyntaxActions";
-import transitions from "../cool/transitions";
+import { transitions, symbols } from "../cool/transitions";
+import Token from "../../classes/Token";
 
-function goTo(stack: Array<string>, nonTerminal: string){
+function goTo(stack: Array<[string, Token]>, nonTerminal: string){
 	const goToState = stack.pop();
 	stack.push(goToState);
-
-	const action = transitions
-		.get(nonTerminal.toString())
-		.filter(
-			elem => elem.previous == parseInt(goToState)
-		).at(0);
 	
-	stack.push(nonTerminal);
+	const action = transitions[parseInt(goToState[0])][symbols.get(nonTerminal)][1];
 
-	if (action instanceof GoToAction)
-		stack.push(action.next.toString());
+	stack.push([nonTerminal, undefined]);
+	stack.push([action, undefined]);
 
 	return stack;
 }

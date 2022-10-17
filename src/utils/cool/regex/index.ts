@@ -1,7 +1,7 @@
 import { firstChar } from "./firstChar";
 import { lineComment, multiLineComment } from "./comment";
 import { integer, string, id } from "./id";
-import { keyWords, especialWords } from "./word";
+import { keyWords } from "./word";
 import { symbols } from "./symbol";
 import { newLine, newLines, whiteSpace } from "./whiteSpace";
 
@@ -13,7 +13,6 @@ export {
 	string,
 	id,
 	keyWords,
-	especialWords,
 	symbols,
 	newLine,
 	newLines,

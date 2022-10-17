@@ -1,7 +1,10 @@
+import Token from "../../classes/Token";
+import { getSymbol } from "../functions";
+
 //Shift function
-function shift(stack: Array<string>, word: string, state: number){
-	stack.push(word);
-	stack.push(state.toString());
+function shift(stack: Array<[string, Token]>, token: Token, state: string){
+	stack.push([getSymbol(token), token]);
+	stack.push([state, undefined]);
 	return stack;
 }
 

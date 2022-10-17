@@ -1,66 +1,55 @@
 import Token from "../classes/Token";
 import TokenType from "../types/TokenType";
-import { AcceptAction, ReduceAction, ShiftAction } from "../classes/SyntaxActions";
-import { shift, reduce } from "./parsingFunctions";
+import { shift, reduce, error } from "./parsingFunctions";
 import { SynError } from "../classes/Errors";
-import transitions from "./cool/transitions";
-
-const staticTokenTypes = [TokenType.ESPECIAL, TokenType.KEYWORD, TokenType.SYMBOL];
+import { transitions, symbols } from "./cool/transitions";
+import { getSymbol } from "./functions";
 
 //Step function
-function step(tokens: Array<Token>, stack: Array<string>, errors = new Array<SynError>): Array<SynError>/*for now*/{
-
-	if (!tokens.length){
-		console.log("Erro");
-		return errors;
-	}
-
-	const nextToken = tokens.pop();
-	const nextState = stack.pop();
+function step(input: Array<Token>, stack = new Array<[string, Token]>(['0', undefined]), errors = new Array<SynError>): Array<SynError>/*for now*/{
+	if (!input.length)
+		return errors
+	const nextToken = input.pop();
+	const previousState = stack.pop()[0];
 	
-	stack.push(nextState);
+	stack.push([previousState, undefined]);
 
-	const nextWord = staticTokenTypes.includes(nextToken.getType) ? nextToken.getWord : TokenType[nextToken.getType];
-
-	const nextAction = transitions
-		.get(nextWord)
-		.filter(
-			elem => elem.previous == parseInt(nextState)
-		).at(0);
+	const nextWord = getSymbol(nextToken);
+	const nextAction = transitions[parseInt(previousState)][symbols.get(nextWord)];
 
 	if (nextAction){
 		//Shift
-		if (nextAction instanceof ShiftAction){
-			stack = shift(stack, nextWord, nextAction.next)
-			return step(tokens, stack, errors);
+		if (nextAction[0] == "s"){
+			stack = shift(stack, nextToken, nextAction[1])
+			return step(input, stack, errors);
 		}
-
 		//Reduce
-		if (nextAction instanceof ReduceAction){
-			tokens.push(nextToken);
-			stack = reduce(stack, nextAction);
-			return step(tokens, stack, errors);
+		if (nextAction[0] == "r"){
+			input.push(nextToken);
+			stack = reduce(stack, nextAction[1]);
+			return step(input, stack, errors);
 		}
 		//Accept
-		if (nextAction instanceof AcceptAction){
+		if (nextAction[0] == "acc"){
 			console.log("Accept");
 			return errors;
 		}
 	}
 	else{
+		//if (nextToken.getType != TokenType.INVALID)
+		console.log(symbols.get(nextWord), previousState, stack.map(elem => elem[0]))
+		console.log(nextAction)
+		//errors = error(nextToken, previousState, input, stack, errors);
 		errors.push(new SynError(nextToken));
-		return step(tokens, stack, errors);
+		return step(input, stack, errors);
 	}
 }
 
 //doSynAnalysis function
-function doSynAnalysis(tokens: Array<Token>): Array<SynError>/*for now*/{
-	tokens = tokens.filter(
-		elem => elem.getType != TokenType.INVALID
-	);
-	tokens.push(new Token('$', 0, TokenType.ESPECIAL))
-	tokens.reverse()
-	return step(tokens, ['0'])
+function doSynAnalysis(input: Array<Token>): Array<SynError>/*for now*/{
+	input.push(new Token('EOF', 0, TokenType.INVALID))
+	input.reverse()
+	return step(input)
 }
 
 export default doSynAnalysis;

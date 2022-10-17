@@ -20,9 +20,4 @@ const keyWords = [
 	/^false/			//false
 ];
 
-const especialWords = [
-	/^self(?!\w)/,		//self
-	/^SELF_TYPE(?!\w)/	//SELF_TYPE
-];
-
-export { keyWords, especialWords };
+export { keyWords };

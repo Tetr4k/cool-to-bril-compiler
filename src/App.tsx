@@ -44,7 +44,7 @@ function App(){
 
 		const /*[syntaxTree, syntaxErrors]*/ syntaxErrors = doSynAnalysis(tokens);
 
-		const compilationErrors = new Array<CompilationError>(...lexicalErrors, ...syntaxErrors);
+		const compilationErrors = new Array<CompilationError>(...lexicalErrors, ...syntaxErrors).sort((a, b) => a.getLine-b.getLine);
 
 		if (compilationErrors.length)
 			toggle(true);

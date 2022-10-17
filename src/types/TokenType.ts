@@ -1,5 +1,4 @@
 enum TokenType{
-	ESPECIAL,
 	ID,
 	INTEGER,
 	INVALID,

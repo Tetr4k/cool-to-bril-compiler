@@ -9,7 +9,6 @@ import {
 	string,
 	id,
 	keyWords,
-	especialWords,
 	symbols,
 	newLine,
 	newLines,
@@ -100,24 +99,6 @@ function doLexAnalysis(code: string, errors = new Array<LexError>): [Array<Token
 			}			
 		});
 		if (verifyKeyWords.includes(true)) continue;
-
-
-		//Capture especial words
-		let verifyEspecialWords = especialWords.map(regex => {
-			const especialWord = code.match(regex);
-			if (especialWord) {
-				code = code.replace(regex, "");
-				tokens.push(
-					new Token(
-						especialWord[0],
-						line,
-						TokenType.ESPECIAL
-					)
-				);
-				return true;
-			}			
-		});
-		if (verifyEspecialWords.includes(true)) continue;
 
 		//Capture integer
 		let capturedInteger = code.match(integer);
