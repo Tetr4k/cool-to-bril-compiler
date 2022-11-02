@@ -54,6 +54,7 @@ const CodingArea = (props: codingAreaProps) => {
 					id="code"
 					placeholder="Code here . . ."
 					onChange={props.onChange}
+					spellCheck="false"
 				/>
 			</label>
 		</div>
