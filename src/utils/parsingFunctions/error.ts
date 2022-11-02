@@ -5,19 +5,14 @@ import reduce from "./reduce";
 import { getSymbol } from "../functions";
 
 function searchReduce(previousState: number, stack: Array<[string, Token]>): string[]{
-	const actions = [...transitions[previousState]].reverse();
-
-	let validAction;
-	while(!validAction){
-		validAction = actions.pop();
-	}
-
+	const actions = [...transitions[previousState]];
+	const validAction = actions.filter(elem => elem)[0];
+	
 	if (validAction[0]=='r')
 		return validAction;
 
 	stack.push(undefined, undefined);
-	
-	return searchReduce(parseInt(validAction[1]), stack)
+	return searchReduce(parseInt(validAction[1]), stack);
 }
 
 function searchShift(previousState: number, input: Array<Token>): string[]{
