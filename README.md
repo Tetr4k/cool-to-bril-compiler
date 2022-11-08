@@ -17,18 +17,7 @@ You can try it in [cooltobril.vercel.app](cooltobril.vercel.app)
 
 # Developing
 
-Install any version of [NodeJS](https://nodejs.org/en/) greater than 16.<br><br>
-Install [Sass](https://sass-lang.com/) by running:
-
-```
-  npm install -g sass
-```
-
-To pre-process the style run:
-
-```
-  sass --watch input.scss output.css
-```
+Install any version of [NodeJS](https://nodejs.org/en/) greater than 16.
 
 To install the development dependencies run:
 

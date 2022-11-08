@@ -3,7 +3,7 @@ import React from "react";
 import { useState } from "react";
 
 /*Style imports*/
-import './index.css';
+import './index.sass';
 
 /*Icons imports*/
 import { FaPlay } from 'react-icons/fa';
