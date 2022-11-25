@@ -2,10 +2,10 @@ import Token from "../../classes/Token";
 import { getSymbol } from "../functions";
 
 //Shift function
-function shift(stack: Array<[string, Token]>, token: Token, state: string){
-	stack.push([getSymbol(token), token]);
-	stack.push([state, undefined]);
-	return stack;
+function shift(tokenStack: Array<Token>, stateStack: Array<number>, token: Token, state: number): [Array<Token>, Array<number>]{
+	tokenStack.push(token);
+	stateStack.push(state);
+	return [tokenStack, stateStack];
 }
 
 export default shift;

@@ -1,19 +1,26 @@
 import grammar from "./../cool/grammar";
 import goTo from "./goTo";
 import Token from "../../classes/Token";
+import TokenType from "../../types/TokenType";
 
 //Shift function
-function reduce(stack: Array<[string, Token]>, rule: string): Array<[string, Token]>{
-	const nonTerminal = grammar[parseInt(rule)-1][0][0];
+function reduce(tokenStack: Array<Token>, stateStack: Array<number>, rule: number): [Array<Token>, Array<number>]{
+	const nonTerminal = grammar[rule-1][0][0];
+	console.log(grammar[rule-1][0]+" -> "+grammar[rule-1][1].join(" "));
 
-	console.log(grammar[parseInt(rule)-1][0]+" -> "+grammar[parseInt(rule)-1][1].join(" "));
+	let nodes = new Array<Token>();
+	for(let i = 0; i < grammar[rule-1][1].length; i++){
+		const token = tokenStack.pop();
+		if (token && token.getType != TokenType.KEYWORD && token.getType != TokenType.SYMBOL)
+			nodes.push(token);
+		stateStack.pop();
+	}
 
-	for(let i = 0; i < grammar[parseInt(rule)-1][1].length*2; i++)
-		stack.pop();
+	console.log(nodes);
 
-	stack = goTo(stack, nonTerminal);
+	[tokenStack, stateStack] = goTo(tokenStack, stateStack, nonTerminal);//, nodes
 	
-	return stack;
+	return [tokenStack, stateStack];
 }
 
 export default reduce;

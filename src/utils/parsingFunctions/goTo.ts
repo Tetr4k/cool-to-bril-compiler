@@ -1,16 +1,17 @@
 import { transitions, symbols } from "../cool/transitions";
 import Token from "../../classes/Token";
+import TokenType from "../../types/TokenType";
 
-function goTo(stack: Array<[string, Token]>, nonTerminal: string){
-	const goToState = stack.pop();
-	stack.push(goToState);
-	
-	const action = transitions[parseInt(goToState[0])][symbols.get(nonTerminal)][1];
+function goTo(tokenStack: Array<Token>, stateStack: Array<number>, nonTerminal: string): [Array<Token>, Array<number>]{
+	const goToState = stateStack.pop();
+	stateStack.push(goToState);
 
-	stack.push([nonTerminal, undefined]);
-	stack.push([action, undefined]);
+	const action = transitions[goToState][symbols.get(nonTerminal)][1];
 
-	return stack;
+	tokenStack.push(new Token(nonTerminal, -1, TokenType.INVALID));
+	stateStack.push(action);
+
+	return [tokenStack, stateStack];
 }
 
 export default goTo;

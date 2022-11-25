@@ -4,18 +4,20 @@ import { transitions, symbols } from "../cool/transitions";
 import reduce from "./reduce";
 import { getSymbol } from "../functions";
 
-function searchReduce(previousState: number, stack: Array<[string, Token]>): string[]{
+function searchReduce(previousState: number, tokenStack: Array<Token>, stateStack: Array<number>): [string, number]{
 	const actions = [...transitions[previousState]];
 	const validAction = actions.filter(elem => elem)[0];
 	
 	if (validAction[0]=='r')
 		return validAction;
 
-	stack.push(undefined, undefined);
-	return searchReduce(parseInt(validAction[1]), stack);
+	tokenStack.push(undefined);
+	stateStack.push(undefined);
+	
+	return searchReduce(validAction[1], tokenStack, stateStack);
 }
 
-function searchShift(previousState: number, input: Array<Token>): string[]{
+function searchShift(previousState: number, input: Array<Token>): [string, number]{
 	const nextToken = input.pop();
 	const nextSymbol = getSymbol(nextToken)
 	const nextAction = transitions[previousState][symbols.get(nextSymbol)];
@@ -28,20 +30,20 @@ function searchShift(previousState: number, input: Array<Token>): string[]{
 	return searchShift(previousState, input);
 }
 
-function error(errorToken: Token, previousState: string, input: Array<Token>, stack: Array<[string, Token]>, errors: Array<SynError>): Array<SynError>{
+function error(errorToken: Token, previousState: number, input: Array<Token>, tokenStack: Array<Token>, stateStack: Array<number>, errors: Array<SynError>): Array<SynError>{
 	errors.push(new SynError(errorToken))
 
 	if (!input.length)
 		return errors;
 	
-	const reduceAction = searchReduce(parseInt(previousState), stack);
+	const reduceAction = searchReduce(previousState, tokenStack, stateStack);
 
-	stack = reduce(stack, reduceAction[1]);
+	[tokenStack, stateStack] = reduce(tokenStack, stateStack, reduceAction[1]);
 	
-	const nextState = stack.pop();
-	stack.push(nextState);
+	const nextState = stateStack.pop();
+	stateStack.push(nextState);
 
-	searchShift(parseInt(nextState[0]), input);
+	searchShift(nextState, input);
 	return errors;
 }
 

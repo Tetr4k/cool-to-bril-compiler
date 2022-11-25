@@ -6,32 +6,32 @@ import { transitions, symbols } from "./cool/transitions";
 import { getSymbol } from "./functions";
 
 //Step function
-function step(input: Array<Token>, stack = new Array<[string, Token]>(['0', undefined]), errors = new Array<SynError>): Array<SynError>/*for now*/{
+function step(input: Array<Token>, tokenStack = new Array<Token>, stateStack = [0], errors = new Array<SynError>): Array<SynError>/*for now*/{
 	if (!input.length){
 		console.log("Deny");
 		return errors;
 	}
 	
 	const nextToken = input.pop();
-	const previousState = stack.pop()[0];
 	
-	stack.push([previousState, undefined]);
+	const previousState = stateStack.pop();
+	stateStack.push(previousState);
 
 	const nextWord = getSymbol(nextToken);
-	const nextAction = transitions[parseInt(previousState)][symbols.get(nextWord)];
-
+	const nextAction = transitions[previousState][symbols.get(nextWord)];
 
 	if (nextAction){
 		//Shift
 		if (nextAction[0] == "s"){
-			stack = shift(stack, nextToken, nextAction[1])
-			return step(input, stack, errors);
+			[tokenStack, stateStack] = shift(tokenStack, stateStack, nextToken, nextAction[1])
+			return step(input, tokenStack, stateStack, errors);
 		}
 		//Reduce
 		if (nextAction[0] == "r"){
 			input.push(nextToken);
-			stack = reduce(stack, nextAction[1]);
-			return step(input, stack, errors);
+			[tokenStack, stateStack] = reduce(tokenStack, stateStack, nextAction[1]);
+			//tree.push(newTree);
+			return step(input, tokenStack, stateStack, errors);
 		}
 		//Accept
 		if (nextAction[0] == "acc"){
@@ -39,11 +39,10 @@ function step(input: Array<Token>, stack = new Array<[string, Token]>(['0', unde
 			return errors;
 		}
 	}
-	else{
-		errors = error(nextToken, previousState, input, stack, errors);
-		//errors.push(new SynError(nextToken));
-		return step(input, stack, errors);
-	}
+	
+	errors = error(nextToken, previousState, input, tokenStack, stateStack, errors);
+
+	return step(input, tokenStack, stateStack, errors);
 }
 
 //doSynAnalysis function
