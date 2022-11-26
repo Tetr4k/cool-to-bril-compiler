@@ -13,7 +13,7 @@ import {
 	newLine,
 	newLines,
 	whiteSpace
-} from "./cool/regex";
+} from "../cool/regex";
 
 
 function doLexAnalysis(code: string, errors = new Array<LexError>): [Array<Token>, Array<LexError>]{

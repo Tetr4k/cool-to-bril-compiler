@@ -1,17 +1,16 @@
-import { transitions, symbols } from "../cool/transitions";
-import Token from "../../classes/Token";
-import TokenType from "../../types/TokenType";
+import { transitions, symbols } from "../../cool/transitions";
+import Reducible from "../../classes/Reducible";
+import Node from "../../classes/Node";
+import Rule from "../../classes/Rule";
 
-function goTo(tokenStack: Array<Token>, stateStack: Array<number>, nonTerminal: string): [Array<Token>, Array<number>]{
+function goTo(reducibleStack: Array<Reducible>, stateStack: Array<number>, rule: Rule, nodes: Array<Reducible>){
 	const goToState = stateStack.pop();
 	stateStack.push(goToState);
 
-	const action = transitions[goToState][symbols.get(nonTerminal)][1];
+	const action = transitions[goToState][symbols.get(rule.nonTerminal)][1];
 
-	tokenStack.push(new Token(nonTerminal, -1, TokenType.INVALID));
+	reducibleStack.push(new Node(rule.type, nodes));
 	stateStack.push(action);
-
-	return [tokenStack, stateStack];
 }
 
 export default goTo;

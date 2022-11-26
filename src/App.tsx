@@ -42,7 +42,7 @@ function App(){
 
 		const [tokens, lexicalErrors] = doLexAnalysis(coolCode);
 
-		const /*[syntaxTree, syntaxErrors]*/ syntaxErrors = doSynAnalysis(tokens);
+		const [syntaxTree, syntaxErrors] = doSynAnalysis(tokens);
 
 		const compilationErrors = new Array<CompilationError>(...lexicalErrors, ...syntaxErrors).sort((a, b) => a.getLine-b.getLine);
 

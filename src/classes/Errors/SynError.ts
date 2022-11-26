@@ -3,7 +3,7 @@ import CompilationError from "./CompilationError";
 
 class SynError extends CompilationError{
 	constructor(token: Token){
-		super(token.getLine, token.getWord);
+		super(token.type, token.word);
 	}
 
 	public toString(): string {

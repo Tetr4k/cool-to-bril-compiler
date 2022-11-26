@@ -1,11 +1,10 @@
+import Reducible from "../../classes/Reducible";
 import Token from "../../classes/Token";
-import { getSymbol } from "../functions";
 
 //Shift function
-function shift(tokenStack: Array<Token>, stateStack: Array<number>, token: Token, state: number): [Array<Token>, Array<number>]{
-	tokenStack.push(token);
+function shift(input: Array<Token>, reducibleStack: Array<Reducible>, stateStack: Array<number>, state: number){
+	reducibleStack.push(input.pop());
 	stateStack.push(state);
-	return [tokenStack, stateStack];
 }
 
 export default shift;

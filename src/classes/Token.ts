@@ -1,30 +1,19 @@
 import TokenType from "../types/TokenType";
+import Reducible from "./Reducible";
 
-class Token{
-	private line: number;
-	private word: string;
-	private tokenType: TokenType;
+class Token implements Reducible{
+	readonly line: number;
+	readonly word: string;
+	readonly type: TokenType;
 
 	constructor(word: string, line: number, tokenType: TokenType){
 		this.word = word;
 		this.line = line;
-		this.tokenType = tokenType;
-	}
-
-	get getLine(): number{
-		return this.line;
-	}
-
-	get getWord(): string{
-		return this.word;
-	}
-
-	get getType(): TokenType{
-		return this.tokenType;
+		this.type = tokenType;
 	}
 
 	public toString(): string{
-		return `${this.tokenType} ${this.word} from line ${this.line}`;
+		return `${this.type} ${this.word} from line ${this.line}`;
 	}
 }
 

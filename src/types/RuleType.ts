@@ -1,0 +1,10 @@
+enum RuleType{
+	PROGRAM,
+	CLASS,
+	CLASS_INHERITS,
+	VAR_DECLARATION,
+	FUN_DECLARATION
+
+}
+
+export default RuleType;

@@ -3,7 +3,7 @@ import CompilationError from "./CompilationError";
 
 class LexError extends CompilationError{
 	constructor(token: Token){
-		super(token.getLine, token.getWord);
+		super(token.line, token.word);
 	}
 
 	public toString(): string {

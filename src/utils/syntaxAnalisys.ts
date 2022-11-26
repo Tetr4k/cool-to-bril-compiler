@@ -2,17 +2,15 @@ import Token from "../classes/Token";
 import TokenType from "../types/TokenType";
 import { shift, reduce, error } from "./parsingFunctions";
 import { SynError } from "../classes/Errors";
-import { transitions, symbols } from "./cool/transitions";
+import { transitions, symbols } from "../cool/transitions";
 import { getSymbol } from "./functions";
+import ActionType from "../types/ActionType";
+import Reducible from "../classes/Reducible";
 
 //Step function
-function step(input: Array<Token>, tokenStack = new Array<Token>, stateStack = [0], errors = new Array<SynError>): Array<SynError>/*for now*/{
-	if (!input.length){
-		console.log("Deny");
-		return errors;
-	}
-	
+function step(input: Array<Token>, reducibleStack = new Array<Reducible>, stateStack = [0], errors = new Array<SynError>): [Array<Reducible>, Array<SynError>]{
 	const nextToken = input.pop();
+	input.push(nextToken);
 	
 	const previousState = stateStack.pop();
 	stateStack.push(previousState);
@@ -20,36 +18,33 @@ function step(input: Array<Token>, tokenStack = new Array<Token>, stateStack = [
 	const nextWord = getSymbol(nextToken);
 	const nextAction = transitions[previousState][symbols.get(nextWord)];
 
-	if (nextAction){
-		//Shift
-		if (nextAction[0] == "s"){
-			[tokenStack, stateStack] = shift(tokenStack, stateStack, nextToken, nextAction[1])
-			return step(input, tokenStack, stateStack, errors);
-		}
-		//Reduce
-		if (nextAction[0] == "r"){
-			input.push(nextToken);
-			[tokenStack, stateStack] = reduce(tokenStack, stateStack, nextAction[1]);
-			//tree.push(newTree);
-			return step(input, tokenStack, stateStack, errors);
-		}
-		//Accept
-		if (nextAction[0] == "acc"){
-			console.log("Accept");
-			return errors;
-		}
+	//Error
+	if (nextAction[0] == ActionType.ERROR){
+		error(nextToken, previousState, input, reducibleStack, stateStack, errors);
+		return step(input, reducibleStack, stateStack, errors);
 	}
-	
-	errors = error(nextToken, previousState, input, tokenStack, stateStack, errors);
-
-	return step(input, tokenStack, stateStack, errors);
+	//Shift
+	if (nextAction[0] == ActionType.SHIFT){
+		shift(input, reducibleStack, stateStack, nextAction[1]);
+		return step(input, reducibleStack, stateStack, errors);
+	}
+	//Reduce
+	if (nextAction[0] == ActionType.REDUCE){
+		reduce(reducibleStack, stateStack, nextAction[1]);
+		return step(input, reducibleStack, stateStack, errors);
+	}
+	//Accept
+	if (nextAction[0] == ActionType.ACCEPT){
+		console.log(reducibleStack);
+		return [reducibleStack, errors];
+	}
 }
 
 //doSynAnalysis function
-function doSynAnalysis(input: Array<Token>): Array<SynError>/*for now*/{
-	input.push(new Token('EOF', 0, TokenType.INVALID))
-	input.reverse()
-	return step(input)
+function doSynAnalysis(input: Array<Token>): [Array<Reducible>, Array<SynError>]{
+	input.push(new Token('EOF', 0, TokenType.INVALID));
+	input.reverse();
+	return step(input);
 }
 
 export default doSynAnalysis;
