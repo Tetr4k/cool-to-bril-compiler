@@ -16,7 +16,7 @@ function step(input: Array<Token>, reducibleStack = new Array<Reducible>, stateS
 	stateStack.push(previousState);
 
 	const nextWord = getSymbol(nextToken);
-	const nextAction = transitions[previousState][symbols.get(nextWord)];
+	const nextAction = transitions[previousState][symbols.indexOf(nextWord)];
 
 	//Error
 	if (nextAction[0] == ActionType.ERROR){

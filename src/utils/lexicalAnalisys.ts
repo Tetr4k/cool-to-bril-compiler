@@ -135,13 +135,7 @@ function doLexAnalysis(code: string, errors = new Array<LexError>): [Array<Token
 		}
 
 		//Token não identificado
-		errors.push(new LexError(
-			new Token(
-				code.charAt(0),
-				line,
-				TokenType.INVALID
-			)
-		));
+		errors.push(new LexError(code.charAt(0), line));
 		code = code.replace(firstChar, "");
 	} 
 	return [tokens, errors];

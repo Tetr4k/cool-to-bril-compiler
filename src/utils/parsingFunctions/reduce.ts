@@ -6,9 +6,10 @@ import Reducible from "../../classes/Reducible";
 //Shift function
 function reduce(reducibleStack: Array<Reducible>, stateStack: Array<number>, rule: number){
 	let nodes = new Array<Reducible>();
+
 	for(let i = 0; i < grammar[rule-1].length; i++){
 		const nextReducible = reducibleStack.pop();
-		if (nextReducible.type != TokenType.KEYWORD && nextReducible.type != TokenType.SYMBOL)
+		if (nextReducible && nextReducible.type != TokenType.KEYWORD && nextReducible.type != TokenType.SYMBOL)
 			nodes.push(nextReducible);
 		stateStack.pop();
 	}

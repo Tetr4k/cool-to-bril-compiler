@@ -7,7 +7,7 @@ function goTo(reducibleStack: Array<Reducible>, stateStack: Array<number>, rule:
 	const goToState = stateStack.pop();
 	stateStack.push(goToState);
 
-	const action = transitions[goToState][symbols.get(rule.nonTerminal)][1];
+	const action = transitions[goToState][symbols.indexOf(rule.nonTerminal)][1];
 
 	reducibleStack.push(new Node(rule.type, nodes));
 	stateStack.push(action);

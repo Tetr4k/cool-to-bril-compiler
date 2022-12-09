@@ -6,7 +6,7 @@ import { useState } from "react";
 import './index.sass';
 
 /*Icons imports*/
-import { FaPlay } from 'react-icons/fa';
+import { FaArrowRight, FaPlay } from 'react-icons/fa';
 import { FaSun } from 'react-icons/fa';
 import { FaMoon } from 'react-icons/fa';
 import { BiHide, BiShow } from 'react-icons/bi';
@@ -22,6 +22,7 @@ import useToggle from './hooks/useToggle';
 /*Function imports*/
 import doLexAnalysis from "./utils/lexicalAnalisys";
 import doSynAnalysis from "./utils/syntaxAnalisys";
+import doSemAnalysis from "./utils/semanticAnalisys";
 import classNames from "classnames";
 
 /* Error imports */
@@ -44,7 +45,9 @@ function App(){
 
 		const [syntaxTree, syntaxErrors] = doSynAnalysis(tokens);
 
-		const compilationErrors = new Array<CompilationError>(...lexicalErrors, ...syntaxErrors).sort((a, b) => a.getLine-b.getLine);
+		//const [semanticErrors] = doSemAnalysis(syntaxTree);
+
+		const compilationErrors = new Array<CompilationError>(...lexicalErrors, ...syntaxErrors/*, ...semanticErrors*/).sort((a, b) => a.getLine-b.getLine);
 
 		if (compilationErrors.length)
 			toggle(true);
@@ -74,6 +77,7 @@ function App(){
 					onChange={handleCodeChange}
 					theme={theme}
 				/>
+				<FaArrowRight/>
 				<CompiledArea
 					code={coolCode} 
 					theme={theme}
