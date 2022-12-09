@@ -2,11 +2,9 @@ import Token from "../Token";
 
 class CompilationError{
 	private line: number;
-	private word: string;
 
-	constructor(line: number, word: string){
+	constructor(line: number){
 		this.line = line;
-		this.word = word;
 	}
 
 	get getLine(): number{
@@ -14,7 +12,7 @@ class CompilationError{
 	}
 
 	public toString(): string {
-		return this.word+" from line "+this.line;
+		return " in line "+this.line;
 	}
 
 }

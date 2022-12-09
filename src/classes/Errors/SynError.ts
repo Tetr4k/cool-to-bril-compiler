@@ -2,12 +2,14 @@ import Token from "../Token";
 import CompilationError from "./CompilationError";
 
 class SynError extends CompilationError{
-	constructor(token: Token){
-		super(token.type, token.word);
+	private word: string;
+	constructor(line: number, word: string){
+		super(line);
+		this.word = word;
 	}
 
 	public toString(): string {
-		return `Syntax Error: ${super.toString()} unexpected!`;
+		return `Syntax Error: \"${this.word}\" expected ${super.toString()}!`;
 	}
 }
 
